@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>주문 테스트</title>
+  </head>
+  <body>
+    <form action="submit.php" method="POST">
+      <label>이름 <input type="text" name="buy_user_name" required /></label>
+      <label>이메일 <input type="text" name="buy_user_email" required /></label>
+      <label>eSIM 일수 (쉼표로): <input type="text" name="esim_day" placeholder="예: 5,10" required /></label><br />
+      <button type="submit">제출</button>
+    </form>
+  </body>
+</html>
