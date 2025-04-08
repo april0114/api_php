@@ -69,7 +69,7 @@ $response = send_to_external_api($data, $order_id, $payment_date);
 
 // 8. 외부 API 실패 (-9) → 메일만 보내고 사용자에겐 성공처럼 응답, DB 저장 안함
 if (isset($response['result']) && $response['result'] === -9) {
-    $admin_message = "❌ 외부 API 전송 실패 (-9)\n\n"
+    $admin_message = "외부 API 전송 실패 (-9)\n\n"
         . "Order ID: $order_id\n"
         . "사용자: {$data['buy_user_name']} ({$data['buy_user_email']})\n"
         . "eSIM: " . json_encode($data['esim_day']) . "\n"
@@ -84,7 +84,7 @@ if (isset($response['result']) && $response['result'] === -9) {
     exit;
 }
 
-// 9. 외부 API 응답이 실패지만 -9가 아님 → 사용자에게 그대로 오류 전달 (DB 저장 ❌)
+// 9. 외부 API 응답이 실패지만 -9가 아님 → 사용자에게 그대로 오류 전달 (DB 저장 X)
 if (!isset($response['result']) || $response['result'] !== 0) {
     http_response_code(500);
     echo json_encode([
