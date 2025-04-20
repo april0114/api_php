@@ -1,8 +1,8 @@
 <?php
-date_default_timezone_set('Asia/Seoul'); // 한국 시간 기준
+date_default_timezone_set('Asia/Seoul');// 한국 시간 기준
 header("Content-Type: application/json");
 
-// 🔧 설정 불러오기
+// 환경변수 및 모듈 로딩
 require_once(__DIR__ . "/../../../../includes/core/env_loader.php");
 require_once(__DIR__ . "/../../../../includes/core/db.php");
 require_once(__DIR__ . "/../../../../includes/logic/validate.php");
@@ -10,7 +10,23 @@ require_once(__DIR__ . "/../../../../includes/logic/send_api.php");
 require_once(__DIR__ . "/../../../../includes/logic/insert.php");
 require_once(__DIR__ . "/../../../../includes/utils/notify_admin.php");
 
-// 🔽 1. 입력 데이터 받기
+// HTTP 헤더 수동 파싱
+function get_request_headers() {
+    $headers = [];
+    foreach ($_SERVER as $key => $value) {
+        if (strpos($key, 'HTTP_') === 0) {
+            $header = str_replace('_', '-', strtolower(substr($key, 5)));
+            $headers[$header] = $value;
+        }
+    }
+    return $headers;
+}
+
+// 🔽 1. 입력
+$headers = get_request_headers();
+$clientId = $headers['client-id'] ?? null;
+$clientSecret = $headers['client-secret'] ?? null;
+
 $input = json_decode(file_get_contents("php://input"), true);
 if (!$input) {
     http_response_code(400);
@@ -18,14 +34,16 @@ if (!$input) {
     exit;
 }
 
-// 🔽 2. 헤더 인증 체크
-$headers = getallheaders();
+// 🔽 2. 인증
 if (
-    !isset($headers['client_id']) || $headers['client_id'] !== getenv('API_CLIENT_ID') ||
-    !isset($headers['client_secret']) || $headers['client_secret'] !== getenv('API_CLIENT_SECRET')
+    $clientId !== getenv('API_CLIENT_ID') ||
+    $clientSecret !== getenv('API_CLIENT_SECRET')
 ) {
     http_response_code(401);
-    echo json_encode(["result" => -1, "reason" => "missing or invalid client_id or client_secret in HTTP Header"]);
+    echo json_encode([
+        "result" => -1,
+        "reason" => "missing or invalid client_id or client_secret in HTTP Header"
+    ]);
     exit;
 }
 
@@ -43,7 +61,7 @@ $unique = strtoupper(substr(md5(uniqid()), 0, 6));
 $order_id = "YCK{$order_date}AA{$unique}";
 $payment_date = date('Ymd'); // 미국 기준 날짜 (UTC 고려 시 처리 필요)
 
-// apply_end_date 계산 (도착일 + 일수 - 1)
+// apply_end_date 계산(도착일 + 일수 - 1)
 $start = DateTime::createFromFormat('Ymd', $data['apply_start_date']);
 $start->modify('+' . ((int)$data['product_days'] - 1) . ' days');
 $apply_end_date = $start->format('Ymd');
@@ -66,7 +84,7 @@ $conn = get_db_connection();
 insert_esim_order($conn, $data, $order_id, $payment_date, $apply_end_date);
 $conn->close();
 
-// 🔽 7. 전체 응답 반환
+// 🔽 7. 응답
 echo json_encode([
     "result" => 0,
     "message" => "Order processed successfully",
