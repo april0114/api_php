@@ -9,6 +9,7 @@ require_once(__DIR__ . "/../../../../includes/logic/validate.php");
 require_once(__DIR__ . "/../../../../includes/logic/send_api.php");
 require_once(__DIR__ . "/../../../../includes/logic/insert.php");
 require_once(__DIR__ . "/../../../../includes/utils/notify_admin.php");
+require_once(__DIR__ . "/../../../../includes/utils/mail_send.php");
 
 // HTTP 헤더 수동 파싱
 function get_request_headers() {
@@ -83,6 +84,22 @@ if ($response['result'] !== 0) {
 $conn = get_db_connection();
 insert_esim_order($conn, $data, $order_id, $payment_date, $apply_end_date);
 $conn->close();
+
+// 🔽 6.5. 메일 발송 (pickup voucher 이메일 전송)
+// 메일에 보낼 정보 준비
+$order_info = [
+    'order_id' => $order_id,
+    'last_name' => $data['last_name'],
+    'first_name' => $data['first_name'],
+    'mobile_number' => $data['mobile_number'],
+    'mobile_model' => $data['device_model'],
+    'arrival_date' => $data['arrival_date'],
+    'pickup_location' => $data['pickup_location'] ?? 'Incheon International Airport (Terminal 1)', // 없으면 기본값
+    'usage_days' => $data['product_days']
+];
+
+// 메일 보내기
+sendPickupVoucherEmail($data['email'], $order_info);
 
 // 🔽 7. 응답
 echo json_encode([
