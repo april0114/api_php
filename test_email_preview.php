@@ -17,5 +17,5 @@ $pickup_location = 'Incheon International Airport (Terminal 1)';
 $usage_days = '30';
 
 // 템플릿 파일 불러오기
-include './pickup_voucher_template.php';
+include __DIR__ . '/includes/utils/email_template/pickup_voucher_template.php';
 ?>
