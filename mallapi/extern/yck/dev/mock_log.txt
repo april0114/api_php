@@ -1,0 +1,66 @@
+Array
+(
+    [order_id] => YCK250430AAB3FB17
+    [buy_user_name] => KIM DARA
+    [buy_user_email] => your_email@gmail.com
+    [product_type] => US
+    [product_days] => 30
+    [payment_date] => 20250430
+    [apply_start_date] => 20250501
+    [apply_end_date] => 20250530
+)
+Array
+(
+    [order_id] => YCK250430AAF3083F
+    [buy_user_name] => KIM DARA
+    [buy_user_email] => your_email@gmail.com
+    [product_type] => US
+    [product_days] => 30
+    [payment_date] => 20250430
+    [apply_start_date] => 20250501
+    [apply_end_date] => 20250530
+)
+Array
+(
+    [order_id] => YCK250430AAE83783
+    [buy_user_name] => KIM DARA
+    [buy_user_email] => your_email@gmail.com
+    [product_type] => US
+    [product_days] => 30
+    [payment_date] => 20250430
+    [apply_start_date] => 20250501
+    [apply_end_date] => 20250530
+)
+Array
+(
+    [order_id] => YCK250430AACEB681
+    [buy_user_name] => KIM DARA
+    [buy_user_email] => your_email@gmail.com
+    [product_type] => US
+    [product_days] => 30
+    [payment_date] => 20250430
+    [apply_start_date] => 20250501
+    [apply_end_date] => 20250530
+)
+Array
+(
+    [order_id] => YCK250430AAE6BEA6
+    [buy_user_name] => KIM DARA
+    [buy_user_email] => your_email@gmail.com
+    [product_type] => US
+    [product_days] => 30
+    [payment_date] => 20250430
+    [apply_start_date] => 20250501
+    [apply_end_date] => 20250530
+)
+Array
+(
+    [order_id] => YCK250430AA7FC50C
+    [buy_user_name] => KIM DARA
+    [buy_user_email] => devops@koreatimes.com
+    [product_type] => US
+    [product_days] => 30
+    [payment_date] => 20250430
+    [apply_start_date] => 20250501
+    [apply_end_date] => 20250530
+)

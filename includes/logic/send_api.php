@@ -4,8 +4,8 @@ function send_to_external_api($data, $order_id, $payment_date, $apply_end_date) 
     $url = getenv('EXTERNAL_API_URL');
     $headers = [
         "Content-Type: application/json",
-        "client_id: " . getenv('client_id'),
-        "client_secret: " . getenv('client_secret')
+        "client_id: " . getenv('API_CLIENT_ID'),
+        "client_secret: " . getenv('API_CLIENT_SECRET')
     ];
     $body = json_encode([
         "order_id" => $order_id,
@@ -31,5 +31,9 @@ function send_to_external_api($data, $order_id, $payment_date, $apply_end_date) 
     }
 
     $decoded = json_decode($response, true);
-    return $decoded ?: ["result" => -9, "reason" => "invalid_json_from_external"];
+    return $decoded ?: [
+        "result" => -9,
+        "reason" => "invalid_json_from_external",
+        "raw_response" => $response
+    ];
 }
