@@ -1,6 +1,7 @@
 <?php
 date_default_timezone_set('Asia/Seoul');// 한국 시간 기준
 header("Content-Type: application/json");
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 // 환경변수 및 모듈 로딩
 require_once(__DIR__ . "/../../../../includes/core/env_loader.php");
@@ -10,8 +11,7 @@ require_once(__DIR__ . "/../../../../includes/logic/send_api.php");
 require_once(__DIR__ . "/../../../../includes/logic/insert.php");
 require_once(__DIR__ . "/../../../../includes/utils/notify_admin.php");
 require_once(__DIR__ . "/../../../../includes/utils/mail_send.php");
-require_once __DIR__ . '/vendor/autoload.php';
-
+require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
 
 // HTTP 헤더 수동 파싱
 function get_request_headers() {
@@ -94,20 +94,26 @@ $barcode_base64 = base64_encode($barcode);
 
 // 🔽 6.5. 메일 발송 (pickup voucher 이메일 전송)
 // 메일에 보낼 정보 준비
-$order_info = [
+$mail_data = [
     'order_id' => $order_id,
-    'last_name' => $data['last_name'],
-    'first_name' => $data['first_name'],
-    'barcode_base64'  => $barcode_base64,
-    'mobile_number' => $data['mobile_number'],
-    'mobile_model' => $data['device_model'],
-    'arrival_date' => $data['arrival_date'],
-    'pickup_location' => $data['pickup_location'] ?? 'Incheon International Airport (Terminal 1)', // 없으면 기본값
-    'usage_days' => $data['product_days']
+    'buy_user_name' => $data['buy_user_name'],
+    'buy_user_email' => $data['buy_user_email'],
+    'product_type' => $data['product_type'],
+    'product_days' => $data['product_days'],
+    'payment_date' => $payment_date,
+    'apply_start_date' => $data['apply_start_date'],
+    'apply_end_date' => $apply_end_date,
+    'barcode_base64' => $barcode_base64 
 ];
 
+// 메일 본문 생성
+ob_start();
+extract($mail_data);
+include __DIR__ . '/../../../../includes/utils/email_templates/pickup_voucher_template.php';
+$mail_body = ob_get_clean();
+
 // 메일 보내기
-sendPickupVoucherEmail($data['email'], $order_info);
+sendPickupVoucherEmail($data['buy_user_email'], $mail_data);
 
 // 🔽 7. 응답
 echo json_encode([
