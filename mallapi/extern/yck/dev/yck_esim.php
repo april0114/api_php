@@ -10,8 +10,9 @@ require_once(__DIR__ . "/../../../../includes/logic/send_api.php");
 require_once(__DIR__ . "/../../../../includes/logic/insert.php");
 require_once(__DIR__ . "/../../../../includes/utils/notify_admin.php");
 require_once(__DIR__ . "/../../../../includes/utils/mail_send.php");
-require_once __DIR__ . '/vendor/autoload.php';
+require_once realpath(__DIR__ . '/../../../../vendor/autoload.php');
 
+use Picqer\Barcode\BarcodeGeneratorPNG;
 
 // HTTP 헤더 수동 파싱
 function get_request_headers() {
@@ -87,6 +88,9 @@ $conn = get_db_connection();
 insert_esim_order($conn, $data, $order_id, $payment_date, $apply_end_date);
 $conn->close();
 
+if (!class_exists('Picqer\Barcode\BarcodeGeneratorPNG')) {
+    die("❌ BarcodeGeneratorPNG 클래스를 불러올 수 없습니다.");
+}
 //바코드 생성
 $generator = new BarcodeGeneratorPNG();
 $barcode = $generator->getBarcode($order_id, $generator::TYPE_CODE_128);
@@ -94,20 +98,39 @@ $barcode_base64 = base64_encode($barcode);
 
 // 🔽 6.5. 메일 발송 (pickup voucher 이메일 전송)
 // 메일에 보낼 정보 준비
-$order_info = [
+$mail_data = [
     'order_id' => $order_id,
-    'last_name' => $data['last_name'],
-    'first_name' => $data['first_name'],
-    'barcode_base64'  => $barcode_base64,
-    'mobile_number' => $data['mobile_number'],
-    'mobile_model' => $data['device_model'],
-    'arrival_date' => $data['arrival_date'],
-    'pickup_location' => $data['pickup_location'] ?? 'Incheon International Airport (Terminal 1)', // 없으면 기본값
-    'usage_days' => $data['product_days']
+    'buy_user_name' => $data['buy_user_name'],
+    'buy_user_email' => $data['buy_user_email'],
+    'product_type' => $data['product_type'],
+    'product_days' => $data['product_days'],
+    'payment_date' => $payment_date,
+    'apply_start_date' => $data['apply_start_date'],
+    'apply_end_date' => $apply_end_date,
+    'barcode_base64' => $barcode_base64 
 ];
 
-// 메일 보내기
-sendPickupVoucherEmail($data['email'], $order_info);
+// 메일 본문 생성
+ob_start();
+extract($mail_data);
+$template_path = realpath(__DIR__ . '/../../../../../includes/utils/email_template/pickup_voucher_template.php');
+$mail_body = ob_get_clean();
+
+file_put_contents(__DIR__ . '/preview_email.html', $mail_body);
+
+
+// ✅ 메일 한 번만 호출
+$result = sendPickupVoucherEmail($data['buy_user_email'], $mail_data);
+
+if (!$result || (is_array($result) && isset($result['result']) && $result['result'] !== 0)) {
+    http_response_code(500);
+    echo json_encode([
+        "result" => -10,
+        "message" => "메일 전송 실패",
+        "error" => $result['error'] ?? 'Unknown error'
+    ]);
+    exit;
+}
 
 // 🔽 7. 응답
 echo json_encode([

@@ -1,9 +1,16 @@
 <?php
+
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once __DIR__ . '/../../../vendor/autoload.php';
-require_once __DIR__ . '/barcode_helper.php';
+function generateBarcodeBase64($order_id) {
+    $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+    $barcode = $generator->getBarcode($order_id, $generator::TYPE_CODE_128);
+    return base64_encode($barcode);
+}
 
 function sendPickupVoucherEmail($to_email, $order_info) {
     $barcode_base64 = generateBarcodeBase64($order_info['order_id']);
@@ -31,20 +38,39 @@ function sendEmail($to_email, $subject, $body) {
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body    = $body;
-        $mail->CharSet = 'UTF-8'; // 한글 깨짐 방지
+        $mail->CharSet = 'UTF-8';
+
+        $mail->addStringEmbeddedImage(
+            $barcode_binary,           // 바이너리 내용
+            'barcode',                 // CID 이름
+            'barcode.png',             // 파일명
+            'base64',
+            'image/png'
+        );
+
 
         $mail->send();
         return true;
     } catch (Exception $e) {
+        // 로그 + Postman 응답에 표시
         error_log('메일 전송 실패: ' . $mail->ErrorInfo);
-        return false;
+
+        // Postman 응답에 바로 오류 반환
+        http_response_code(500);
+        echo json_encode([
+            "result" => -10,
+            "message" => "메일 전송 실패",
+            "error" => $mail->ErrorInfo
+        ]);
+        exit;
     }
 }
+
 
 function includeTemplate($template_name, $variables = []) {
     extract($variables);
     ob_start();
-    include __DIR__ . '/email_templates/' . $template_name;
+    include __DIR__ . '/email_template/' . $template_name;
     return ob_get_clean();
 }
 ?>
