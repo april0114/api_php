@@ -45,6 +45,19 @@ function yck_handle_order($order_id) {
     $order_suffix = yck_generate_order_code($order_id); // AA000 ~ ZZ999
     $order_code = 'YCK' . date('ymd') . $order_suffix;
 
+
+    // 2️⃣ API 전송 - 이름만 가공하고 order_id는 그대로
+    $api_payload = [
+        'order_id'        => $order_code,
+        'buy_user_name'   => $data['first_name'] . ' ' . $data['last_name'],
+        'buy_user_email'  => $data['email'],
+        'esim_day'        => [(int) $data['esim_day']],
+        'payment_date'    => $data['payment_date']
+    ];
+
+    yck_send_api($api_payload);
+
+
     //  WooCommerce 원본 전체 정보 (이메일용)
     $data = [
         'order_id'      => $order_code,
@@ -61,15 +74,4 @@ function yck_handle_order($order_id) {
 
     // 1️⃣ 메일 전송 - 전체 데이터 그대로
     yck_send_email($data);
-
-    // 2️⃣ API 전송 - 이름만 가공하고 order_id는 그대로
-    $api_payload = [
-        'order_id'        => $order_code,
-        'buy_user_name'   => $data['first_name'] . ' ' . $data['last_name'],
-        'buy_user_email'  => $data['email'],
-        'esim_day'        => [(int) $data['esim_day']],
-        'payment_date'    => $data['payment_date']
-    ];
-
-    yck_send_api($api_payload);
 }

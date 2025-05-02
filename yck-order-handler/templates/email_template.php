@@ -15,6 +15,7 @@
 <p><strong>■ Reservation Number (Order ID)</strong></p>
 <p><?= htmlspecialchars($mail_data['order_id']) ?></p>
 
+<!-- 바코드 생성 -->
 <?php if (!empty($mail_data['barcode_base64'])): ?>
   <p><img src="data:image/png;base64,<?= $mail_data['barcode_base64'] ?>" alt="Barcode" /></p>
 <?php endif; ?>
