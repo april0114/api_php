@@ -1,7 +1,7 @@
 <?php
 function yck_send_usim_to_api($data) {
     //실제 서버 (배포용)
-    //$url = 'https://www.koreaesim.com:8443/mallapi/extern/yck/prod/yck_pickup';
+
     
     //테스트용
     $url = 'https://yconnectkorea.com/wp-content/plugins/yck-order-handler/includes/api_usim_test.php';
@@ -9,9 +9,7 @@ function yck_send_usim_to_api($data) {
 
     $headers = [
         //"Content-Type: application/json; charset=UTF-8",
-        "client_id: yck_esim",
-        "client_secret: D17F354C6986F735B0C47DE69E74560D42FCBDE421AA632794697176FD3F5AE2"
-    ];
+     ];
 
     $buy_user_name = trim(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''));
     $product_days = is_array($data['usage_days']) ? (string)($data['usage_days'][0] ?? '1') : (string)$data['usage_days'];
