@@ -19,20 +19,25 @@ function yck_handle_order_by_slug($order_id) {
 
     foreach ($order->get_items() as $item) {
         $product = $item->get_product();
+        $slug = $product->get_slug(); // 예: en_esim-data-only, usim-airport-pickup
 
-        // ✅ 상품의 슬러그 가져오기
-        $slug = $product->get_slug(); // 예: esim-data-only, usim-physical
         error_log('[YCK] 상품 슬러그: ' . $slug);
 
-        // 👉 eSIM 슬러그 기준 분기
-        if (in_array($slug, ['esim-data-only', 'esim-global'])) {
-            yck_handle_esim_order($order);
+        // 언어 구분: 'en_'이면 영어
+        $lang = str_starts_with($slug, 'en_') ? 'en' : 'ko';
+
+        // 실제 slug만 추출
+        $pure_slug = $lang === 'en' ? substr($slug, 3) : $slug;
+
+        // eSIM 처리
+        if (in_array($pure_slug, ['esim-data-only', 'esim-data-call-sms', 'esim-global'])) {
+            yck_handle_esim_order($order, $lang);
             return;
         }
 
-        // 👉 USIM 슬러그 기준 분기
-        if (in_array($slug, ['usim-physical', 'usim-delivery'])) {
-            yck_handle_usim_order($order);
+        // USIM 처리
+        if (in_array($pure_slug, ['usim-airport-pickup', 'usim-delivery'])) {
+            yck_handle_usim_order($order, $lang);
             return;
         }
     }
