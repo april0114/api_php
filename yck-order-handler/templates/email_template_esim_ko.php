@@ -1,8 +1,9 @@
+<!-- templates/email_template_esim_ko.php -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8">
-  <title>[Y CONNECT KOREA] This is the installation and activation guide email for the SKT eSIM you ordered</title>
+  <title>[Y CONNECT KOREA] SKT eSIM 설치 및 활성화 안내</title>
   <style>
     body { font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6; }
     h2 { color: #000080; }
@@ -22,84 +23,146 @@
 </head>
 <body>
 
-<h2>[Y CONNECT KOREA] 한글 테스트</h2>
+<a href="https://yconnectkorea.com" target="_blank">
+  <img src="https://yconnectkorea.com/wp-content/uploads/2025/04/YCK_logo_01.png" 
+       alt="Y CONNECT KOREA Logo" 
+       style="max-width: 200px; display: block; margin: 20px 0;">
+</a>
+<p><strong>Y CONNECT KOREA SKT eSIM</strong>을 주문해 주셔서 진심으로 감사드립니다.<br><br>
+본 안내 이메일은 고객님 eSIM 설치와 한국에서 휴대폰 사용에 도움을 드리고자 발송되었습니다. .<br>
+주문이 완료되면 본 설치 가이드 이메일과 함께 QR 코드 이메일을 별도도 받으셔야 합니다.</p>
 
-<img src="https://yconnectkorea.com/wp-content/uploads/2025/04/YCK_logo_01.png" alt="Y CONNECT KOREA Logo" style="max-width: 200px; display: block; margin: 20px 0;">
+<p class="highlight">만약 주문 후 24시간이 지나도 한국 협력업체로부터 QR 코드이메일(영문)을 받지 못하셨다면:</p>
 
-<p>Thank you very much for ordering the <strong>Y CONNECT KOREA SKT eSIM</strong>.<br>
-This guide email has been sent to assist you with your eSIM installation and mobile phone usage in Korea.<br>
-Once your order is complete, you should receive an email containing a QR code separately from this installation guide email.</p>
+ <p>1.이메일의 스팸 메일함 또는 프로모션 탭을 확인해 주시기 바랍니다.</p>
+  <p>2.위의 1번 사항을 확인해도 받지 못한 경우엔,  <a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a> 으로 QR코드 미수신/고객님 성함/휴대폰전화번호/주문번호를 함께 적어 보내 주시면 바로 확인 처리해 드립니다.</p>
 
-<p class="highlight">If you do not receive the QR code email (in English) from our Korean partner within 24 hours after placing your order:</p>
-<ol>
-  <li>Please check your email's spam folder or promotions tab.</li>
-  <li>If you still do not receive the QR code after checking the above 1, please send an email to <a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a> with <strong>QR Code Not Received</strong>, and include your name, phone number, and order number. We will process your request immediately.</li>
-</ol>
-
-<div class="section-title">■ SKT eSIM Reservation Number (Order Number)</div>
-<p><strong>Reservation Number:</strong> <?= htmlspecialchars($mail_data['order_id']) ?></p>
-
-<div class="section-title">■ SKT eSIM Reservation Information</div>
-<table>
-  <tr><th>Last Name / First Name</th><td><?= htmlspecialchars($mail_data['last_name']) ?> <?= htmlspecialchars($mail_data['first_name']) ?></td></tr>
-  <tr><th>Mobile Number</th><td><?= htmlspecialchars($mail_data['mobile_number']) ?></td></tr>
-  <tr><th>Mobile Model Name</th><td><?= htmlspecialchars($mail_data['device_model']) ?></td></tr>
-  <tr><th>Arrival Date in Korea</th><td><?= htmlspecialchars($mail_data['arrival_date']) ?></td></tr>
-  <tr><th>Pickup / Passport Verification / Charge</th><td>Incheon International Airport (Terminal 1)</td></tr>
-  <tr><th>Usage Days</th><td><?= htmlspecialchars(implode(', ', (array)$mail_data['usage_days'])) ?> days</td></tr>
+<div class="section-title">■ SKT eSIM 예약번호(주문번호)</div>
+<table style="border-collapse: collapse; width: 100%; margin-top: 10px;">
+  <tr>
+    <td style="border: 1px solid #ccc; padding: 8px; font-weight: bold; background-color: #f9f9f9; width: 30%;">
+      예약번호(주문번호)
+    </td>
+    <td style="border: 1px solid #ccc; padding: 8px;">
+      <?= htmlspecialchars($mail_data['order_id']) ?>
+    </td>
+  </tr>
 </table>
 
-<div class="section-title">■ eSIM Installation and Activation</div>
-<ul>
-  <li>This eSIM QR code can be scanned within one year after the order and it cannot be scanned after one year.</li>
-  <li>If you delete the eSIM profile, you will need to order a new eSIM to use it.</li>
-</ul>
+<?php
+$raw_date = $mail_data['arrival_date'] ?? '';
+$formatted_date = '';
+
+try {
+    $date = DateTime::createFromFormat('d/m/Y', $raw_date);
+    if ($date !== false) {
+        $formatted_date = $date->format('Y-m-d');
+    }
+} catch (Exception $e) {
+    $formatted_date = $raw_date; // 실패하면 원본 그대로 출력
+}
+?>
+
+<div class="section-title">■ SKT eSIM 예약정보</div>
+<div class="section-title">■ SKT eSIM 예약정보</div>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr><th style="border: 1px solid #ccc; padding: 8px;">Last Name / First Name</th><td style="border: 1px solid #ccc; padding: 8px;"><?= htmlspecialchars($mail_data['last_name']) ?> <?= htmlspecialchars($mail_data['first_name']) ?></td></tr>
+  <tr><th style="border: 1px solid #ccc; padding: 8px;">Mobile Number</th><td style="border: 1px solid #ccc; padding: 8px;">+1 <?= htmlspecialchars($mail_data['mobile_number']) ?></td></tr>
+  <tr><th style="border: 1px solid #ccc; padding: 8px;">Mobile Model Name</th><td style="border: 1px solid #ccc; padding: 8px;"><?= htmlspecialchars($mail_data['device_model']) ?></td></tr>
+  <tr><th style="border: 1px solid #ccc; padding: 8px;">Arrival Date in Korea</th><td style="border: 1px solid #ccc; padding: 8px;"><?= htmlspecialchars($formatted_date) ?></td></tr>
+  <tr><th style="border: 1px solid #ccc; padding: 8px;">Pickup / Passport Verification / Charge</th><td style="border: 1px solid #ccc; padding: 8px;">인천국제공항 제1터미널</td></tr>
+  <tr><th style="border: 1px solid #ccc; padding: 8px;">Usage Days</th><td style="border: 1px solid #ccc; padding: 8px;"><?= htmlspecialchars(implode(', ', (array)$mail_data['usage_days'])) ?>일</td></tr>
+</table>
+
+<div class="section-title">■ eSIM 설치 및 한국 도착해서 활성화 방법</div>
+<p>※본 eSIM QR코드의 스캔 기간은 주문 후 1년이며, 1년 이후에는 스캔하실 수 없습니다.<br>
+※eSIM Profile을 삭제할 경우, 신규 eSIM을 주문해야만 사용할 수 있습니다. 
+</p>
 <div class="box-link">
-  ▶ <a href="https://yconnectkorea.com/esim-install" target="_blank">View Details: How to install eSIM by scanning QR code and Activate eSIM in Korea</a>
+  ▶ <a href="https://yconnectkorea.com/esim-install" target="_blank">eSIM 설치 및 한국 도착해서 활성화 방법 상세 보기</a>
 </div>
 
-<div class="section-title">■ How to Use Incoming/Outgoing Voice/Texts</div>
-<p class="red-text">※ If you only need data, the following steps are not required.</p>
-<ol>
-  <li>Install the eSIM on your phone before arriving in Korea.</li>
-  <li>Visit the SKT roaming center at the airport.</li>
-  <li>Present the QR code email and submit your passport for verification.</li>
-  <li>Charge the amount for outgoing voice/texts (use a credit card usable in Korea).</li>
-</ol>
+<div class="section-title">■ 음성/문자 수신과 발신 서비스까지 이용하는 방법</div>
+<p class="red-text">(※ Data 만 이용하실 분은 아래 절차가 필요 없습니다)</p>
+  <p>미국에서 eSIM을 먼저 설치하시고 한국 도착 후, 공항의 SKT 로밍센터를 방문해 주세요.</p>
 
-<div class="section-title">■ Charge Amount of Voice/Texts</div>
-<table>
-  <tr><th>Charge amount</th><th>₩5,500</th><th>₩11,000</th><th>₩22,000</th><th>₩33,000</th><th>₩55,000</th></tr>
-  <tr><td>Minute</td><td>About 20 minutes</td><td>About 40 minutes</td><td>About 80 minutes</td><td>About 120 minutes</td><td>About 200 minutes</td></tr>
+
+<p>1.QR 코드 이메일(주문번호/렌털 계약 번호/ eSIM 010 전화번호) 제출</p>
+ <p>2.본인 여권(여권 정보 진위 여부 확인) 제출</p>
+<p>음성/문자 발신용 금액 충전 (한국에서 사용 가능한 본인 신용카드로 결제)</p>
+
+
+<div class="section-title">■ 음성/문자 발신용 금액 충전</div>
+<p>※ 음성/문자 발신은 금액 충전 시 이용이 가능하며 음성/문자 수신은 무료로 이용이 가능합니다.</p>
+<div style="text-align: right; font-size: 12px; margin-bottom: 5px;">*부가세 포함</div>
+
+<table style="border-collapse: collapse; width: 100%;">
+  <tr style="background-color: #fff0b3;">
+    <th style="border: 2px solid #999; padding: 10px; text-align: center;">충전 금액</th>
+    <th style="border: 2px solid #999; padding: 10px; text-align: center;">₩5,500</th>
+    <th style="border: 2px solid #999; padding: 10px; text-align: center;">₩11,000</th>
+    <th style="border: 2px solid #999; padding: 10px; text-align: center;">₩22,000</th>
+    <th style="border: 2px solid #999; padding: 10px; text-align: center;">₩33,000</th>
+    <th style="border: 2px solid #999; padding: 10px; text-align: center;">₩55,000</th>
+  </tr>
+  <tr style="background-color: #e6ffee;">
+    <td style="border: 2px solid #999; padding: 10px; text-align: center;">예상 통화분수</td>
+    <td style="border: 2px solid #999; padding: 10px; text-align: center;">약 20분 통화</td>
+    <td style="border: 2px solid #999; padding: 10px; text-align: center;">약 40분 통화</td>
+    <td style="border: 2px solid #999; padding: 10px; text-align: center;">약 80분 통화</td>
+    <td style="border: 2px solid #999; padding: 10px; text-align: center;">약 120분 통화</td>
+    <td style="border: 2px solid #999; padding: 10px; text-align: center;">약 200분 통화</td>
+  </tr>
 </table>
 
-<div class="section-title">■ SKT Roaming Center at the Airport</div>
-<p>Please, check the location and working time before visiting the SKT roaming center.</p>
+<div class="section-title">■ 공항 SKT 로밍센터 안내</div>
+<p>SKT 로밍센터를 방문하기전에 장소와 근무시간을 확인하세요.</p>
 <div class="green-box">
-  ▶ <a href="https://yconnectkorea.com/sktroamingcenter" target="_blank">View Details: SKT roaming center</a>
+  ▶ <a href="https://yconnectkorea.com/sktroamingcenter" target="_blank">SKT 로밍센터 상세 보기</a>
 </div>
 
-<div class="section-title">■ Online Passport Information Verification (Only Available for Foreign Passport Holders)</div>
-<p>※ For data-only users, passport verification is not required.<br>
-<span class="red-text">※ A passport issued by the Republic of Korea cannot be used for online passport verification.</span></p>
-<p>Online verification is available daily from 8:00 AM to 10:00 PM after passing through immigration.</p>
-<ol>
-  <li>Access: <a href="https://www.skroaming.com/passport/" target="_blank">https://www.skroaming.com/passport/</a></li>
-  <li>Login: Rental contract number / eSIM 010 phone number</li>
-  <li>Enter your passport information (name, number, DOB, nationality)</li>
-</ol>
+<div class="section-title">■ 온라인 여권 정보 진위 여부 확인 (외국 여권 소지자만 가능)</div>
+<p>※ Data 만 이용하실 분은 여권 정보 진위 여부 확인이 필요 없습니다.<br>
+<span class="red-text">※ 대한민국 여권 보유자는 여권 정보 진위 여부 확인을 온라인에서 이용할 수 없습니다.</span></p>
+<p>한국 출입국 관리소 통과 이후에, 매일 8시부터 22시까지 확인 가능합니다. </p>
+<p>
+  여권 정보 인증 페이지 접속: 
+  <a href="https://www.skroaming.com/passport/" target="_blank">https://www.skroaming.com/passport/</a>
+</p>
 
-<div class="section-title">■ Online Charge Amount of Voice/Texts</div>
-<p class="red-text">※ Only customers who have completed passport information verification can charge online.</p>
-<ol>
-  <li>Access: <a href="https://www.skroaming.com/reservation/charging" target="_blank">https://www.skroaming.com/reservation/charging</a></li>
-  <li>Login and select charge amount</li>
-  <li>Enter payment card info (usable in Korea)</li>
-</ol>
+<p>① 로그인 정보 입력:<br>
+렌털 계약 번호 / eSIM 010 전화번호 (이 정보는 QR 코드 이메일에 제공됩니다)</p>
 
+<p>② 여권정보 입력:<br>
+성 / 이름 / 여권번호 / 생년월일 / 국적 (여권상 표시와 동일해야 합니다)</p>
+
+
+<div class="section-title">■ 온라인 음성/문자 발신용 금액 충전 방법 </div>
+<p class="red-text">※ 여권 정보 진위 여부 확인을 마치신 고객님에 한하여 이용할 수 있습니다. </p>
+
+ <p>음성/문자 충전 페이지 접속: </p><a href="https://www.skroaming.com/reservation/charging" target="_blank">https://www.skroaming.com/reservation/charging</a> 
+<p>로그인 정보 입력:<br>
+렌털 계약 번호/ eSIM 010 전화번호 (이 정보는 QR 코드 이메일에 제공됩니다)</p>
+<p>② 충전 금액 결정:<br>
+5,500원 / 11,000원 / 22,000원 / 33,000원 / 55,000원 (부가세 포함입니다) 
+</p>
+<p>
+    ③ 결제 카드 입력:<br>
+충전 금액 결제 (한국에서 사용 가능한 신용카드로 결제하셔야 합니다) 
+</p>
 <hr>
+<div class="section-title">
+    주문 내역에 착오가 있거나, 그 외 궁금한 사항이 있으시면, <br>
+고객님 주문 정보와 함께 문의 사항을 적으셔서 contact@yconnectkorea.com 으로 <br>
+이메일 보내 주시면 바로 답변 드리겠습니다.<br>
+다시 한번 Y Connect Korea SKT eSIM을 주문해 주심에 진심으로 감사드립니다.
+</div>
 
-<p>문의: <a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a></p>
+<div class="section-title">
+Y CONNECT KOREA, INC. <br>
+고객지원센터
+</div>
+<p><a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a></p>
 
 </body>
 </html>
