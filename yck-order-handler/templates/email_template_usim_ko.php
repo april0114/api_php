@@ -5,44 +5,43 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>[Y CONNECT KOREA] 유심 한국어 템플릿 테스트</title>
+  <title>[Y CONNECT KOREA] SKT uSIM 픽업 안내</title>
   <style>
     body { font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6; }
     h2 { color: #000080; }
     .highlight { color: red; font-weight: bold; }
     .box-link {
-      background-color: #e0ffe0;
-      border: 1px solid #a0dca0;
+      background-color: #e2efd9;
+      border: 1px solid #999;
       padding: 10px;
       margin: 10px 0;
     }
     .section-title { font-weight: bold; margin-top: 20px; }
     table { border-collapse: collapse; margin: 10px 0; width: 100%; }
     td, th { border: 1px solid #ccc; padding: 8px; text-align: left; }
-    .green-box { background-color: #e0ffe0; border: 1px solid #009900; padding: 8px; }
+    .green-box { background-color: #e2efd9; border: 1px solid #999; padding: 8px; }
     .red-text { color: red; font-weight: bold; }
   </style>
 </head>
 <body>
 
-<h2>[Y CONNECT KOREA] This is the voucher email for the SKT USIM (Airport Pickup) you ordered</h2>
 
-<p>
-  <a href="https://yconnectkorea.com" target="_blank">
-    <img src="https://yconnectkorea.com/wp-content/uploads/2025/04/YCK_logo_01.png" alt="Y CONNECT KOREA Logo" style="max-width: 200px; display: block; margin: 20px 0;">
-  </a>
-</p>
+<a href="https://yconnectkorea.com" target="_blank">
+  <img src="https://yconnectkorea.com/wp-content/uploads/2025/04/YCK_logo_01.png" 
+       alt="Y CONNECT KOREA Logo" 
+       style="max-width: 200px; display: block; margin: 20px 0;">
+</a>
 
-<p>Thank you very much for ordering the <strong>Y CONNECT KOREA SKT USIM (Airport Pickup)</strong>.</p>
+<p><strong>Y CONNECT KOREA SKT USIM (Airport Pickup)을 주문해 주셔서 진심으로 감사드립니다.</strong></p>
 
-<h3>■ SKT USIM (Airport Pickup) Barcode for Pickup (Order Number)</h3>
+<div class="section-title">■ SKT USIM (Airport Pickup) 픽업을 위한 바코드</div>
 <table style="border-collapse: collapse; width: 100%; margin-bottom: 20px;">
   <tr>
     <td style="border: 1px solid #000; padding: 10px; text-align: center; width: 30%;">
       Barcode
     </td>
     <td style="border: 1px solid #000; padding: 10px; text-align: center;">
-      <?= generateBarcode128($mail_data['order_id']) ?>
+    <?= generateBarcode128($mail_data['order_id']) ?>
     </td>
   </tr>
   <tr>
@@ -53,52 +52,113 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 </table>
 
 
-<p>Upon arriving in Korea, please visit the SKT roaming center at the airport.</p>
-<ol>
-  <li>Submit the barcode (order number) of this voucher and your passport.</li>
-  <li>If you need to make outgoing voice/texts, charge the amount for outgoing voice/texts.</li>
-</ol>
-<p>Once your passport verification and charging (if needed) are complete, you will receive your SKT SIM card.</p>
-<ul>
-  <li>You must pay with your credit card that can be used in Korea.</li>
-  <li>If there are many customers waiting, you may be asked to charge the amount for outgoing voice/texts online.</li>
-</ul>
+<p><strong>한국 도착해서 공항 SKT 로밍센터를 방문해 주세요. </strong></p>
+<p><strong>(1) 본 바우처의 바코드(주문번호)와 고객님 여권을 제시해 주시고, <br>(2) 음성/문자 발신이 필요하신 분께서는 음성/문자 발신용 금액을 충전하시면 됩니다. <br>여권정보 본인 확인과 충전이 완료되면 SKT SIM 카드를 수령하실 수 있습니다.</strong></p>
+<p class="red-text">※ 발신 요금 충전은 한국에서 사용 가능한 본인 신용카드로 결제하셔야 하며, <br> 공항 SKT 로밍센터에서 대기자가 많을 경우, 온라인으로 충전할 것을 요청할 수 있습니다.</p>
 
-<h3>■ SKT USIM (Airport Pickup) Reservation Information</h3>
-<table>
-  <tr><th>Last Name / First Name</th><td><?= htmlspecialchars($mail_data['last_name']) ?> <?= htmlspecialchars($mail_data['first_name']) ?></td></tr>
-  <tr><th>Mobile Number</th><td><?= htmlspecialchars($mail_data['mobile_number']) ?></td></tr>
-  <tr><th>Mobile Model Name</th><td><?= htmlspecialchars($mail_data['device_model']) ?></td></tr>
-  <tr><th>Arrival Date in Korea / Arrival Time</th><td><?= htmlspecialchars($mail_data['arrival_date']) ?></td></tr>
-  <tr><th>Pickup / Passport Verification / Charge</th><td>Incheon International Airport (Terminal 1)</td></tr>
-  <tr><th>Usage Days</th><td><?= htmlspecialchars(implode(', ', (array)$mail_data['usage_days'])) ?> days</td></tr>
+
+<?php
+$raw_date = $mail_data['arrival_date'] ?? '';
+$formatted_date = '';
+
+try {
+    $date = DateTime::createFromFormat('d/m/Y', $raw_date);
+    if ($date !== false) {
+        $formatted_date = $date->format('Y-m-d');
+    }
+} catch (Exception $e) {
+    $formatted_date = $raw_date; // 실패하면 원본 그대로 출력
+}
+?>
+
+
+<div class="section-title">■ SKT USIM (Airport Pickup) 예약 정보</div>
+<table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
+  <tr>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Last Name / First Name</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($mail_data['last_name']) ?> <?= htmlspecialchars($mail_data['first_name']) ?></td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Mobile Number</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">+1 <?= htmlspecialchars($mail_data['mobile_number']) ?></td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Mobile Model Name</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($mail_data['device_model']) ?></td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Arrival Date in Korea / Arrival Time</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($formatted_date) ?></td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;">Pickup / Passport Verification / Charge</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;">Incheon International Airport (Terminal 1)</td>
+  </tr>
+  <tr>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Usage Days</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars(implode(', ', (array)$mail_data['usage_days'])) ?> days</td>
+  </tr>
 </table>
 
-<h3>■ Charge Amount of Voice/Texts</h3>
-<p>※ Outgoing voice/text can be used when the amount is charged, and incoming voice/text is free of charge.</p>
+<div class="section-title">■ 음성/문자 발신용 금액 충전</div>
+<p>※ 음성/문자 발신은 금액 충전 시 이용이 가능하며 음성/문자 수신은 무료로 이용이 가능합니다.</p>
+<div style="text-align: right; font-size: 12px; margin-bottom: 5px;">*부가세 포함</div>
 
-<h3>■ SKT Roaming Center at the Airport</h3>
-<p>Please, check the location and working time before visiting the SKT roaming center.</p>
-<div class="green-box">
-  ▶ <a href="https://yconnectkorea.com/sktroamingcenter" target="_blank">View Details: SKT roaming center</a>
+<table style="border-collapse: collapse; width: 100%; text-align: center;">
+  <tr style="background-color: #fff0b3;">
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">충전 금액</th>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">₩5,500</th>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">₩11,000</th>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">₩22,000</th>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">₩33,000</th>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">₩55,000</th>
+  </tr>
+  <tr style="background-color: #e2efd9;">
+    <td style="border: 1px solid #ccc;border-top: 2px solid #333; padding: 10px;">예상 통화분수</td>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">약 20분 통화</td>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">약 40분 통화</td>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">약 80분 통화</td>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">약 120분 통화</td>
+    <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">약 200분 통화</td>
+  </tr>
+</table>
+
+
+<div class="section-title">■ 공항 SKT 로밍센터 안내</div>
+<p>SKT 로밍센터를 방문하기전에 장소와 근무시간을 확인하세요.</p>
+
+<div class="box-link" style="text-align: center; font-weight: bold;">
+  <a href="https://yconnectkorea.com/esim-install" target="_blank" style="color: black; text-decoration: none;">
+    SKT 로밍센터 상세 보기
+  </a>
 </div>
 
-<h3>■ Online Recharge Amount of Voice/Texts</h3>
-<p>Access the charge amount of voice/texts page:</p>
-<ol>
-  <li><a href="https://www.skroaming.com/reservation/charging" target="_blank">https://www.skroaming.com/reservation/charging</a></li>
-  <li>Enter login information:<br>Rental contract number / eSIM 010 phone number (This information will be provided at the SKT roaming center when you pick up your SIM card)</li>
-  <li>Decide on recharge amount:<br>₩5,500 / ₩11,000 / ₩22,000 / ₩33,000 / ₩55,000 (VAT is included)</li>
-  <li>Enter Payment Card Information:<br>You must pay with your credit card that can be used in Korea.</li>
-</ol>
+<div class="section-title">■ 온라인 음성/문자 발신용 금액 충전 방법 </div>
+<p style="color: red;">※ 여권 정보 진위 여부 확인을 마치신 고객님에 한하여 이용할 수 있습니다.</p>
 
-<p>If there are any errors in your order details, or if there are any changes to the SIM card pickup location/date, please send an email to <a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a> with your order details and inquiry, and we will respond promptly.</p>
+ <p><strong>음성/문자 충전 페이지 접속:</strong>  <a href="https://www.skroaming.com/reservation/charging" target="_blank">https://www.skroaming.com/reservation/charging</a> </p>
+<p>로그인 정보 입력:<br>
+렌털 계약 번호/ eSIM 010 전화번호 (이 정보는 QR 코드 이메일에 제공됩니다)</p>
+<p>② 충전 금액 결정:<br>
+5,500원 / 11,000원 / 22,000원 / 33,000원 / 55,000원 (부가세 포함입니다) 
+</p>
+<p>
+    ③ 결제 카드 입력:<br>
+충전 금액 결제 (한국에서 사용 가능한 신용카드로 결제하셔야 합니다) 
+</p>
+<hr>
+<div class="section-title">
+주문 내역에 착오가 있거나, 심카드 픽업 장소/날짜가 변경되시면,<br>
+고객님 주문 정보와 함께 문의 사항을 적으셔서 contact@yconnectkorea.com 으로 <br>
+이메일 보내 주시면 바로 답변 드리겠습니다.<br>
+다시 한번 Y Connect Korea SKT USIM (Airport Pickup)을 주문해 주심에 진심으로 감사드립니다.
+</div>
 
-<p>Once again, we sincerely thank you for ordering a Y Connect Korea SKT USIM (Airport Pickup).</p>
-
-<p><strong>Y CONNECT KOREA, INC.<br>
-Customer Support<br>
-<a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a></strong></p>
+<div class="section-title">
+Y CONNECT KOREA, INC. <br>
+고객지원센터
+</div>
+<p><a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a></p>
 
 </body>
 </html>

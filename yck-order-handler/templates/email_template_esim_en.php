@@ -57,11 +57,11 @@ try {
 <div class="section-title">■ SKT eSIM Reservation Number (Order Number)</div>
 <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
   <tr>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle; width: 50%;">
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; width: 50%;">
       Reservation Number<br>(Order Number)
 
     </td>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle; width: 50%;">
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; width: 50%;">
       <?= htmlspecialchars($mail_data['order_id']) ?>
     </td>
   </tr>
@@ -71,28 +71,28 @@ try {
 <div class="section-title">■ SKT eSIM Reservation Information</div>
 <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
   <tr>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;">Last Name / First Name</td>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($mail_data['last_name']) ?> <?= htmlspecialchars($mail_data['first_name']) ?></td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Last Name / First Name</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($mail_data['last_name']) ?> <?= htmlspecialchars($mail_data['first_name']) ?></td>
   </tr>
   <tr>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;">Mobile Number</td>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;">+1 <?= htmlspecialchars($mail_data['mobile_number']) ?></td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Mobile Number</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">+1 <?= htmlspecialchars($mail_data['mobile_number']) ?></td>
   </tr>
   <tr>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;">Mobile Model Name</td>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($mail_data['device_model']) ?></td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Mobile Model Name</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($mail_data['device_model']) ?></td>
   </tr>
   <tr>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;">Arrival Date in Korea</td>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($formatted_date) ?></td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Arrival Date in Korea</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($formatted_date) ?></td>
   </tr>
   <tr>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle; color: red;">Pickup / Passport Verification / Charge</td>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle; color: red;">Incheon International Airport (Terminal 1)</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;">Pickup / Passport Verification / Charge</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;">Incheon International Airport (Terminal 1)</td>
   </tr>
   <tr>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;">Usage Days</td>
-    <td style="border: 1px solid #ccc; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars(implode(', ', (array)$mail_data['usage_days'])) ?> days</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Usage Days</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars(implode(', ', (array)$mail_data['usage_days'])) ?> days</td>
   </tr>
 </table>
 
