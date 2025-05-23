@@ -130,7 +130,7 @@ try {
     <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">₩33,000</th>
     <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">₩55,000</th>
   </tr>
-  <tr style="background-color: #e6ffee;">
+  <tr style="background-color: #e2efd9;">
     <td style="border: 1px solid #ccc;border-top: 2px solid #333; padding: 10px;">Minute</td>
     <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">About 20 minutes</td>
     <td style="border: 1px solid #ccc; border-top: 2px solid #333; padding: 10px;">About 40 minutes</td>
