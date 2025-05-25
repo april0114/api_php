@@ -26,7 +26,7 @@ function yck_handle_esim_order($order, $lang = 'ko') {
 
         wp_mail($data['email'], $subject_customer, $email_body, [
             'Content-Type: text/html; charset=UTF-8',
-            'From: Y CONNECT KOREA <kyungrimha@gmail.com>', 
+            'From: Y CONNECT KOREA <noreply@yconnectkorea.com>', 
         ]);
     } 
     
@@ -37,14 +37,14 @@ function yck_handle_esim_order($order, $lang = 'ko') {
 
         wp_mail($data['email'], $subject_customer, $email_body_user, [
             'Content-Type: text/html; charset=UTF-8',
-            'From: Y CONNECT KOREA <kyungrimha@gmail.com>',
+            'From: Y CONNECT KOREA <noreply@yconnectkorea.com>',
         ]);
 
         // 관리자에게 경고 메일
         $admin_template = plugin_dir_path(__DIR__) . '/templates/error/error_alert.php';
         $email_body_admin = yck_render_template($admin_template, ['mail_data' => $data]);
 
-        wp_mail('kyungrimha@gmail.com', '[YCK 알림] ESIM 주문 API 실패 - 수동 등록 필요', $email_body_admin, [
+        wp_mail('noreply@yconnectkorea.com', '[YCK 알림] ESIM 주문 API 실패 - 수동 등록 필요', $email_body_admin, [
             'Content-Type: text/html; charset=UTF-8',
             'From: Y CONNECT 시스템 <noreply@yconnectkorea.com>',
         ]);

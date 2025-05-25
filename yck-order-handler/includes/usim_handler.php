@@ -27,7 +27,7 @@ function yck_handle_usim_order($order) {
 
         wp_mail($data['email'], '[Y CONNECT KOREA] USIM 바우처', $email_body, [
             'Content-Type: text/html; charset=UTF-8',
-            'From: Y CONNECT KOREA <kyungrimha@gmail.com>',
+            'From: Y CONNECT KOREA <noreply@yconnectkorea.com>',
         ]);
 
     } elseif ($api_response['result'] === -9) {
@@ -39,14 +39,14 @@ function yck_handle_usim_order($order) {
 
         wp_mail($data['email'], '[Y CONNECT KOREA] USIM 바우처', $email_body_user, [
             'Content-Type: text/html; charset=UTF-8',
-            'From: Y CONNECT KOREA <kyungrimha@gmail.com>',
+            'From: Y CONNECT KOREA <noreply@yconnectkorea.com>',
         ]);
 
         // 관리자에게 알림
         $template_admin = plugin_dir_path(__DIR__) . '/templates/error/error_alert.php';
         $email_body_admin = yck_render_template($template_admin, ['mail_data' => $data]);
 
-        wp_mail('kyungrimha@gmail.com', '[YCK 알림] USIM 주문 API 실패 - 수동 등록 필요', $email_body_admin, [
+        wp_mail('noreply@yconnectkorea.com', '[YCK 알림] USIM 주문 API 실패 - 수동 등록 필요', $email_body_admin, [
             'Content-Type: text/html; charset=UTF-8',
             'From: Y CONNECT 시스템 <noreply@yconnectkorea.com>',
         ]);
