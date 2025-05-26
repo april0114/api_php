@@ -9,114 +9,147 @@
 function yck_insert_custom_form() {
     ob_start();
     ?>
-    <style>
-        .form-wrapper {
-            font-family: 'Noto Sans KR', sans-serif;
-            font-size: 16px;
-            color: #333;
-            max-width: 1000px;
-            margin: 0 auto;
-            width: 100%;
-        }
+<style>
 
-        .form-title {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 20px;
-        }
+    .woocommerce div.product form.cart table td {
+        padding-left: 12px !important;
+    }
 
-        .form-check {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+  .form-wrapper {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 16px;
+    color: #333;
+    max-width: 1000px;
+    padding: 0 ;
+    margin: 0 auto;
+    width: 100%;
 
-        .form-check-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+  }
 
-        .form-check-right,
-        .form-required-note {
-            font-size: 14px;
-            color: #333;
-        }
+  .form-title {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    margin-top: 50px;
+  }
+  
+  .form-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
-        table.custom-form-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+.form-check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0;
+}
 
-        table.custom-form-table th {
-            width: 180px;
-            background-color: #f8f8f8;
-            text-align: left;
-            font-weight: 600;
-            padding: 12px 12px 12px 24px;
-            text-indent: -15px;
-            border: 1px solid #ccc;
-            border-left: none;
-        }
+.form-check-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-        table.custom-form-table td {
-            border-top: 1px solid #ccc;
-            border-bottom: 1px solid #ccc;
-            border-left: 1px solid #ccc;
-            border-right: none;
-            padding: 12px 0 12px 12px;
-            vertical-align: top;
-        }
+.form-check-right {
+  font-size: 14px;
+  color: #333;
+}
+.form-required-note {
+  font-size: 14px;
+  color: #333;
+}
+  .form-check input {
+    margin-right: 10px;
+  }
 
-        table.custom-form-table td > * {
-            width: 100%;
-            box-sizing: border-box;
-        }
+  table.custom-form-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+  }
 
-        .required {
-            color: #1B2D6B;
-            margin-right: 4px;
-        }
+    table.custom-form-table th {
+      width: 180px;
+      background-color: #f8f8f8 ;
+      text-align: left;
+      font-weight: 600;
+      line-height: 1.4;
+      padding: 12px 12px 12px 24px;
+      text-indent: -15px;
+      border: 1px solid #ccc;
+      border-left: none; 
+    }
 
-        .form-note {
-            font-size: 13px;
-            color: #666;
-            margin-top: 6px;
-        }
+table.custom-form-table td {
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: none; 
+  padding: 12px 12px 12px 12px; 
+  vertical-align: top;
+}
+  
+    table.custom-form-table td > * {
+      width: 100%;
+      box-sizing: border-box;
+    }
 
-        .name-inputs {
-            display: flex;
-            gap: 10px;
-            width: 100%;
-        }
+    .required {
+      color: #1B2D6B;
+      margin-right: 4px;
+    }
 
-        .name-inputs input {
-            flex: 1;
-            min-width: 0;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 2px;
-        }
+    .form-note {
+      font-size: 13px;
+      color: #666;
+      margin-top: 6px;
+    }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="date"],
-        select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 2px;
-            box-sizing: border-box;
+    .name-inputs {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+    }
+
+    .name-inputs input {
+      flex: 1;
+      min-width: 0;
+    padding: 10px !important;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 2px;
+      box-sizing: border-box;
+    }
+    
+            .elementor-widget-raven-product-add-to-cart .raven-product-add-to-cart select {
+            display: block !important;
         }
-    </style>
+        .personal-info .form-title {
+  margin-top: 0;
+}
+</style>
+
 
     <div class="form-wrapper">
-        <div class="form-title">개인정보 입력</div>
-        <div class="form-check">
+<div class="form-section personal-info">
+  <div class="form-title">개인정보 입력</div>
+</div>        <div class="form-check">
             <div class="form-check-left">
                 <input type="checkbox" id="ageCheck" required>
                 <label for="ageCheck">만 14세 이상만 예약하실 수 있습니다. 만 14세 이상이십니까?</label>
@@ -195,6 +228,7 @@ function yck_insert_custom_form() {
 }
 
 add_shortcode('my_custom_php_section', 'yck_insert_custom_form');
+
 add_action('woocommerce_before_add_to_cart_button', function() {
     echo do_shortcode('[my_custom_php_section]');
 });
