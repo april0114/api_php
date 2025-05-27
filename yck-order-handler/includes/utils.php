@@ -6,91 +6,55 @@ function yck_collect_order_data($order, $type = 'esim') {
     $mmddyy = date('mdy');
     $custom_order_id = 'YCK' . $mmddyy . $order_id;
     $formatted_payment_date = date('YmdHis');
-    
 
     $data = [
         'order_id'     => $order_id,
-        'email'        => $order->get_billing_email(),
-        'phone'        => $order->get_billing_phone(),
         'payment_date' => $formatted_payment_date,
     ];
-    $email = $data['email'];
 
+    // 메타데이터 수집
     foreach ($order->get_meta_data() as $meta) {
         $data[$meta->key] = $meta->value;
     }
 
+    // 아이템 메타데이터 수집
     foreach ($order->get_items() as $item) {
         foreach ($item->get_meta_data() as $meta) {
             $data['item_' . $meta->key] = $meta->value;
         }
     }
 
-    error_log('[YCK] 주문 전체 메타: ' . json_encode($data));
+    error_log('[YCK] 주문 전체 메타: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
 
-    // 🔽 초기 변수 설정
-    $usage_days = [];
-    $first_name_raw = '';
-    $last_name_raw  = '';
-    $mobile         = '';
-    $device_model   = '';
-    $arrival_date   = '';
-    $pickup_location= '';
+    // 기본 필드 추출
+    $first_name      = $data['item_Firstname'] ?? '';
+    $last_name       = $data['item_Lastname'] ?? '';
+    $passport_number = $data['item_passport_number'] ?? '';
+    $email           = $data['item_email'] ?? '';
+    $mobile          = $data['item_phone'] ?? '';
+    $device_model    = $data['item_mobilemodelname'] ?? '';
+    $arrival_date    = $data['item_arrival_date'] ?? '';
+    $pickup_location = $data['item_arrival_terminal'] ?? '';
+    $usage_days      = [];
 
-    // 🔽 item__ywapo_meta_data 파싱
+    // YITH 필드: item__ywapo_meta_data에서 59번만 추출
     if (!empty($data['item__ywapo_meta_data']) && is_array($data['item__ywapo_meta_data'])) {
         foreach ($data['item__ywapo_meta_data'] as $entry) {
-            foreach ($entry as $field) {
-                $addon_id = $field['addon_id'] ?? '';
-                $value = $field['addon_value'] ?? '';
-
-                if ($type === 'esim') {
-                    switch ($addon_id) {
-                        case '24': // usage_days
-                            if (preg_match('/\d+/', $value, $m)) $usage_days[] = (int)$m[0];
-                            break;
-                        case '25':
-                            if (str_contains($value, 'First Name:')) {
-                                $first_name_raw = $value;
-                            } elseif (str_contains($value, 'Last Name:')) {
-                                $last_name_raw = $value;
-                            }
-                            break;
-                        case '29': $mobile = $value; break;
-                        case '31': $device_model = $value; break;
-                        case '32': $arrival_date = $value; break;
-                        case '33': $pickup_location = $value; break;
-                    }
-                }
-
-                if ($type === 'usim') {
-                    switch ($addon_id) {
-                        case '1': // usage_days
-                            if (preg_match('/\d+/', $value, $m)) $usage_days[] = (int)$m[0];
-                            break;
-                        case '2':
-                            if (str_contains($value, 'First Name:')) $first_name_raw = $value;
-                            if (str_contains($value, 'Last Name:'))  $last_name_raw = $value;
-                            break;
-                        case '6': $email = $value; break;
-                        case '7': $mobile = $value; break;
-                        case '9': $device_model = $value; break;
-                        case '10': $arrival_date = $value; break;
-                        case '11': $pickup_location = $value; break;
+            foreach ($entry as $key => $field) {
+                if (isset($field['addon_id']) && (string)$field['addon_id'] === '59') {
+                    if (!empty($field['addon_value']) && preg_match('/\d+/', $field['addon_value'], $matches)) {
+                        $usage_days[] = (int)$matches[0];
                     }
                 }
             }
         }
     }
 
-    // 🔽 이름 클렌징
-    $first_name_clean = preg_replace('/[^a-zA-Z가-힣]/u', '', str_replace('First Name: ', '', (string)$first_name_raw));
-    $last_name_clean  = preg_replace('/[^a-zA-Z가-힣]/u', '', str_replace('Last Name: ', '', (string)$last_name_raw));
-
     return [
         'order_id'        => $custom_order_id,
-        'first_name'      => $first_name_clean,
-        'last_name'       => $last_name_clean,
+        'first_name'      => $first_name,
+        'last_name'       => $last_name,
+        'passport_number' => $passport_number,
         'email'           => $email,
         'mobile_number'   => $mobile,
         'device_model'    => $device_model,
@@ -100,7 +64,6 @@ function yck_collect_order_data($order, $type = 'esim') {
         'payment_date'    => $formatted_payment_date,
     ];
 }
-
 function yck_render_template($template_file, $variables = []) {
     if (!file_exists($template_file)) {
         error_log('[YCK] 템플릿 파일 없음: ' . $template_file);
