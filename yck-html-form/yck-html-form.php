@@ -167,62 +167,176 @@ table.custom-form-table td {
                         <input type="text" name="Lastname" placeholder="Last name" required />
                         <input type="text" name="Firstname" placeholder="First name" required />
                     </div>
-                    <div class="form-note">* 여권에 기재된 영문 이름을 입력해 주세요.</div>
+                    <div class="form-note">*여권에 기재된 영문 대문자와 동일하게 입력해 주세요</div>
                 </td>
             </tr>
             <tr>
                 <th><span class="required">•</span> 국적</th>
-                <td><input type="text" name="nationality" placeholder="국적 입력 (예: 대한민국)" required />
-                    <div class="form-note">* 외국인 전용 상품입니다.</div>
+                <td><input type="text" name="nationality" placeholder="Republic of Korea"  required />
+                    <div class="form-note">*여권에 기재된 국적을 선택해 주세요</div>
                 </td>
+            </tr>
+                        <tr>
+                <th><span class="required">•</span> 여권 번호</th>
+                <td><input type="text" name="passport_number" placeholder="여권 번호 입력" required /></td>
             </tr>
             <tr>
                 <th><span class="required">•</span> 이메일</th>
                 <td>
                     <input type="email" name="email" placeholder="example@example.com" required />
-                    <div class="form-note">* 메일로 예약 내역이 발송됩니다.</div>
+                    <div class="form-note">*QR 코드 또는 바우처(주문번호)를 받을 수 있는 이메일 주소를 정확하게 입력해 주세요</div>
                 </td>
             </tr>
-            <tr>
-                <th><span class="required">•</span> 연락처</th>
-                <td><input type="tel" name="phone" placeholder="연락처 입력" required /></td>
-            </tr>
-            <tr>
-                <th><span class="required">•</span> 여권 번호</th>
-                <td><input type="text" name="passport_number" placeholder="여권 번호 입력" required /></td>
-            </tr>
+<tr>
+  <th><span class="required">•</span> 휴대폰 번호</th>
+  <td>
+    <input
+      type="tel"
+      name="phone"
+      placeholder="M12345678"
+      required
+      pattern="\d{10}"
+      maxlength="10"
+      inputmode="numeric"
+      oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
+    />
+    <div class="form-note">
+      *만약 제출된 이름/국적/여권 번호가 실제 여권과 다른 경우 심카드가 제공되지 않습니다
+    </div>
+  </td>
+</tr>
+
         </table>
 
         <div class="form-title">모바일 정보</div>
-        <table class="custom-form-table">
-            <tr>
-                <th><span class="required">•</span> 통신사</th>
-                <td><input type="text" name="mobilecarrier" placeholder="통신사 입력 (예: visible)" /></td>
-            </tr>
-            <tr>
-                <th><span class="required">•</span> 핸드폰 기종</th>
-                <td><input type="text" name="mobilemodelname" placeholder="기종 입력 (예: iPhone 16)" /></td>
-            </tr>
-        </table>
+<table class="custom-form-table">
+    <tr>
+        <th><span class="required">•</span> 서비스 사업자</th>
+        <td><input type="text" name="mobilecarrier" placeholder="Verizon, AT&T, Tmobile" required /></td>
+    </tr>
+    <tr>
+        <th><span class="required">•</span> 휴대폰 모델</th>
+        <td><input type="text" name="mobilemodelname" placeholder="iPhone 16, Samsung S25" required /></td>
+    </tr>
+</table>
 
-        <div class="form-title">공항정보</div>
-        <table class="custom-form-table">
-            <tr>
-                <th><span class="required">•</span> 한국 도착일</th>
-                <td><input type="date" name="arrival_date" /></td>
-            </tr>
-            <tr>
-                <th><span class="required">•</span> 도착 공항</th>
-                <td>
-                    <select name="arrival_terminal">
-                        <option value="" disabled selected>도착 터미널 선택</option>
-                        <option value="terminal1">인천공항 제1터미널</option>
-                        <option value="terminal2">인천공항 제2터미널</option>
-                    </select>
-                </td>
-            </tr>
-        </table>
-    </div>
+<div class="form-title">입국 정보</div>
+<table class="custom-form-table">
+    <tr>
+        <th><span class="required">•</span> 한국 도착일
+</th>
+        <td><input type="date" name="arrival_date" required min="<?= date('Y-m-d') ?>"/>
+                <div class="form-note">*한국 날짜 기준으로 입력해 주세요</div>
+        </td>
+    </tr>
+    <tr>
+        <th><span class="required">•</span> 도착 공항
+        </th>
+        <td>
+            <select name="arrival_terminal" required>
+                <option value="" disabled selected>도착 터미널 선택</option>
+                <option value="terminal1">인천공항 제1터미널 (1층)</option>
+                <option value="terminal2">인천공항 제2터미널 (1층)</option>
+                <option value="gimpoairport">김포 국제공항</option>
+                <option value="gimhaeairport">김해 국제공항</option>
+                <option value="jejuairport">제주 국제공항</option>
+                <option value="busanharbor">부산 항구</option>
+                <option value="daeguairport">대구 공항</option>
+
+            </select>
+                    <div class="form-note">* 심카드 픽업 / 여권 확인 / 충전 / 도착 공항을 선택해 주세요</div>
+
+        </td>
+    </tr>
+</table>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const buyNowBtn = document.getElementById("buy-now-button");
+  const customAgreeAll = document.getElementById("customAgreeAll");
+  const customSubAgrees = document.querySelectorAll(".custom-sub-agree");
+
+  if (!buyNowBtn) return;
+
+  // 전체 동의 → 하위 체크박스 반영
+  if (customAgreeAll) {
+    customAgreeAll.addEventListener("change", function () {
+      customSubAgrees.forEach(cb => cb.checked = this.checked);
+    });
+  }
+
+  // 하위 체크 → 전체 동의 상태 반영
+  customSubAgrees.forEach(cb => {
+    cb.addEventListener("change", () => {
+      const allChecked = [...customSubAgrees].every(c => c.checked);
+      customAgreeAll.checked = allChecked;
+    });
+  });
+
+  // Buy Now 버튼 클릭 시 유효성 검사 실행
+  buyNowBtn.addEventListener("click", function (e) {
+    e.preventDefault(); // ✅ 무조건 이동 방지
+
+    let isValid = true;
+    const unchecked = [];
+    const emptyFields = [];
+
+    // 체크 안된 항목 찾기
+    customSubAgrees.forEach(cb => {
+      if (!cb.checked) {
+        cb.parentElement.style.outline = '2px solid red';
+        cb.parentElement.classList.add('shake');
+        unchecked.push(cb);
+        isValid = false;
+      } else {
+        cb.parentElement.style.outline = '';
+        cb.parentElement.classList.remove('shake');
+      }
+    });
+
+    // 필수 input/select/checkbox 유효성 검사
+    const requiredInputs = document.querySelectorAll('input[required], select[required], textarea[required]');
+    requiredInputs.forEach(input => {
+      const isEmpty = (input.type === 'checkbox') ? !input.checked : !input.value.trim();
+      if (isEmpty) {
+        input.style.outline = '2px solid red';
+        input.classList.add('shake');
+        emptyFields.push(input);
+        isValid = false;
+      } else {
+        input.style.outline = '';
+        input.classList.remove('shake');
+      }
+    });
+
+    // 에러 발생 시 스크롤, 포커스, shake 복구
+    if (!isValid) {
+      const firstInvalid = [...unchecked, ...emptyFields][0];
+      if (firstInvalid) {
+        firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        firstInvalid.focus();
+      }
+
+      setTimeout(() => {
+        [...unchecked, ...emptyFields].forEach(el => {
+          el.style.outline = '';
+          el.classList.remove('shake');
+        });
+      }, 3000);
+
+      return;
+    }
+
+    // ✅ 유효성 검사 통과한 경우 WooCommerce의 add-to-cart 버튼을 클릭시킴
+    const realAddToCartBtn = document.querySelector('form.cart button[name="add-to-cart"]');
+    if (realAddToCartBtn) {
+      realAddToCartBtn.click();
+    }
+  });
+});
+</script>
+
     <?php
     return ob_get_clean();
 }
@@ -247,6 +361,21 @@ function yck_add_form_data_to_cart($cart_item_data, $product_id) {
     }
 
     return $cart_item_data;
+}
+
+add_action('woocommerce_checkout_create_order_line_item', 'yck_save_custom_data_to_order_items', 10, 4);
+function yck_save_custom_data_to_order_items($item, $cart_item_key, $values, $order) {
+    $fields = [
+        'Firstname', 'Lastname', 'nationality', 'email', 'phone',
+        'passport_number', 'mobilecarrier', 'mobilemodelname',
+        'arrival_date', 'arrival_terminal'
+    ];
+
+    foreach ($fields as $field) {
+        if (!empty($values[$field])) {
+            $item->add_meta_data($field, $values[$field], true);
+        }
+    }
 }
 
 add_filter('woocommerce_get_item_data', 'yck_show_custom_data_in_cart', 10, 2);

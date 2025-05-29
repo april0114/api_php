@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("vxHhF1ZsMaL8-1InZ");
+    })();
+  </script>
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .name-row {
+      display: flex;
+      margin: 40px 0 10px;
+    }
+
+    .name-block {
+      display: flex;
+      flex: 1;
+    }
+
+    .name-label {
+      background-color: #1c2958;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      width: 250px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: right;
+      padding-top: 2px;
+      padding-right: 12px;
+    }
+
+    .name-input {
+      background-color: #f5f5f5;
+      border: none;
+      padding: 10px;
+      font-size: 14px;
+      flex: 1;
+    }
+
+    .note-inline {
+      font-size: 12px;
+      color: #555;
+      margin: 5px 0 20px ;
+    }
+
+    .form-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .form-table td.label {
+      width: 250px;
+      background-color: #1c2958;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+      text-align: right;
+      padding: 15px 10px;
+      vertical-align: top;
+    }
+
+    .form-table td.input {
+      padding: 15px 10px;
+    }
+
+    .form-table .radio-group label {
+      display: block;
+      padding: 10px;
+      border: 1px solid #f27c9c;
+      background-color: #ffeaf2;
+      color: #1c2958;
+      font-weight: 500;
+      margin-bottom: 8px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .form-table input[type="text"],
+    .form-table input[type="email"],
+    .form-table textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      background-color: #f5f5f5;
+      border: none;
+    }
+
+    .note {
+      font-size: 12px;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    .submit-button {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .submit-button button {
+      background-color: #1c2958;
+      color: white;
+      padding: 10px 50px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .submit-button button:hover {
+      background-color: #12203e;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <form id="contact-form">
+
+    <div class="name-row">
+      <div class="name-block">
+        <div class="name-label">First Name*</div>
+        <input type="text" class="name-input" name="first_name" placeholder="예: CHULSOO" required>
+      </div>
+      <div class="name-block" style="margin-left: 20px;">
+        <div class="name-label">Family Name*</div>
+        <input type="text" class="name-input" name="last_name" placeholder="예: KIM" required>
+      </div>
+    </div>
+    <div class="note-inline">※ 영어 대문자로 여권에 표시된 그대로 입력해 주세요</div>
+
+    <table class="form-table">
+      <tr>
+        <td class="label">Products*</td>
+        <td class="input">
+          <div class="radio-group">
+            <label><input type="radio" name="product" value="eSIM (Data only)" required> eSIM (Data only)</label>
+            <label><input type="radio" name="product" value="eSIM (Data, Call, SMS)"> eSIM (Data, Call, SMS)</label>
+            <label><input type="radio" name="product" value="USIM (Airport Pickup)"> USIM (Airport Pickup)</label>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">Email Address*</td>
+        <td class="input">
+          <input type="email" name="email" placeholder="예: contact@yconnectkorea.com" required>
+          <div class="note">※ 이메일 주소를 정확하게 입력해 주세요</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">Mobile Number*</td>
+        <td class="input">
+          <input type="text" name="mobile" placeholder="예: 2134567890" required>
+          <div class="note">※ 미국 휴대폰 번호 10자리(3자리 지역코드 포함)를 숫자만 입력해 주세요</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">Questions*</td>
+        <td class="input">
+          <textarea name="message" rows="5" placeholder="질문 사항을 자세히 적어 주세요" required></textarea>
+        </td>
+      </tr>
+    </table>
+  </form>
+
+  <div class="submit-button">
+    <button id="submit-btn" type="button">발송</button>
+  </div>
+</div>
+
+<script>
+  document.getElementById("submit-btn").addEventListener("click", function () {
+    const form = document.getElementById("contact-form");
+    if (form) {
+      form.requestSubmit();
+    }
+  });
+
+  document.getElementById("contact-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const form = e.target;
+    const firstName = form.first_name.value.trim();
+    const lastName = form.last_name.value.trim();
+    const email = form.email.value.trim();
+    const mobile = form.mobile.value.trim();
+    const message = form.message.value.trim();
+    const product = form.product.value;
+
+    const templateParams = {
+      from_name: `${firstName} ${lastName}`,
+      from_email: email,
+      mobile: mobile,
+      product: product,
+      message: message,
+      subject: `문의 내용 (${product})`
+    };
+
+    emailjs.send("service_tq4ebv5", "template_q890pzi", templateParams)
+      .then(function(response) {
+        alert("메일이 성공적으로 발송되었습니다.");
+        form.reset();
+      }, function(error) {
+        alert("메일 발송에 실패했습니다. 콘솔 로그를 확인해주세요.");
+        console.error("EmailJS 오류:", error);
+      });
+  });
+</script>
+</body>
+</html>
