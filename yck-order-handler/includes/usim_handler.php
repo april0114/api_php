@@ -16,7 +16,7 @@ function yck_handle_usim_order($order) {
     error_log('[YCK] 최종 buy_user_name: [' . $data['first_name'] . ' ' . $data['last_name'] . ']');
     error_log('[YCK] JSON 최종 전송값: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
 
-    $api_response = yck_send_to_api($data, 'usim'); // usim API 호출
+    $api_response = yck_send_usim_to_api($data, 'usim'); // usim API 호출
 
     // 템플릿 및 제목
     $template_file    = "templates/email_template_usim_{$lang}.php";
@@ -24,7 +24,7 @@ function yck_handle_usim_order($order) {
     $subject_customer = $lang === 'en' ? '[Y CONNECT KOREA] USIM Voucher' : '[Y CONNECT KOREA] USIM 바우처';
 
     // [1] API 정상 응답
-    if ($api_response['result'] === 0) {
+    if ($api_response['result'] === 1) {
         $email_body = yck_render_template($template_path, ['mail_data' => $data]);
         $sent = wp_mail($data['email'], $subject_customer, $email_body, [
             'Content-Type: text/html; charset=UTF-8',
