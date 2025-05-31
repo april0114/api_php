@@ -7,7 +7,6 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 function yck_handle_esim_order($order, $lang = 'ko') {
     $data = yck_collect_order_data($order, 'esim');
 
-    error_log('[YCK] 최종 buy_user_name: [' . $data['first_name'] . ' ' . $data['last_name'] . ']');
     error_log('[YCK] JSON 최종 전송값: ' . json_encode($data));
 
     $api_response = yck_send_to_api($data);
@@ -15,7 +14,7 @@ function yck_handle_esim_order($order, $lang = 'ko') {
     // 언어별 설정
     $template_file    = "templates/email_template_esim_{$lang}.php";
     $template_path    = plugin_dir_path(__DIR__) . $template_file;
-    $subject_customer = $lang === 'en' ? '[Y CONNECT KOREA] eSIM Voucher' : '[Y CONNECT KOREA] SKT eSIM 설치 및 활성화 안내';
+    $subject_customer = $lang === 'en' ? '[Y CONNECT KOREA] This is the installation and activation guide email for the SKT eSIM you ordered' : '[Y CONNECT KOREA] This is the installation and activation guide email for the SKT eSIM you ordered';
 
     error_log('[YCK] 템플릿 경로: ' . $template_path);
 

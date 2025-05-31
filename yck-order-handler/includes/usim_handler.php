@@ -50,7 +50,7 @@ function yck_handle_usim_order($order) {
     }
 
     // [3] 명시적 에러코드 대응
-    elseif (in_array($api_response['result'], [-1, -2, -3, -4])) {
+    elseif (in_array($api_response['result'], [-1, -2, -3, -5])) {
         $admin_template = plugin_dir_path(__DIR__) . '/templates/error/error_alert.php';
         $email_body_admin = yck_render_template($admin_template, [
             'mail_data' => $data,
