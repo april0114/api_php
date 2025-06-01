@@ -163,11 +163,11 @@ table.custom-form-table td {
             <tr>
                 <th><span class="required">•</span> 이름</th>
                 <td>
-                    <div class="name-inputs">
-                        <input type="text" name="Lastname" placeholder="Last name" required />
-                        <input type="text" name="Firstname" placeholder="First name" required />
-                    </div>
-                    <div class="form-note">*여권에 기재된 영문 대문자와 동일하게 입력해 주세요</div>
+<div class="name-inputs">
+    <input type="text" name="Lastname" placeholder="Last name" required style="text-transform: uppercase;" />
+    <input type="text" name="Firstname" placeholder="First name" required style="text-transform: uppercase;" />
+</div>
+                    <div class="form-note">*여권에 기재된 영문과 동일하게 대문자로 입력해 주세요</div>
                 </td>
             </tr>
             <tr>
@@ -178,13 +178,15 @@ table.custom-form-table td {
             </tr>
                         <tr>
                 <th><span class="required">•</span> 여권 번호</th>
-                <td><input type="text" name="passport_number" placeholder="여권 번호 입력" required /></td>
+                <td><input type="text" name="passport_number" placeholder="M12345678" required />
+                <div class="form-note">*만약 제출된 이름/국적/여권 번호가 실제 여권과 다른 경우 심카드가 제공되지 않습니다</div>
+</td>
             </tr>
             <tr>
                 <th><span class="required">•</span> 이메일</th>
                 <td>
                     <input type="email" name="email" placeholder="example@example.com" required />
-                    <div class="form-note">*QR 코드 또는 바우처(주문번호)를 받을 수 있는 이메일 주소를 정확하게 입력해 주세요</div>
+                    <div class="form-note">*QR 코드 또는 바우처(주문번호)을 받을 수 있는 이메일 주소를 정확하게 입력해 주세요</div>
                 </td>
             </tr>
 <tr>
@@ -193,7 +195,7 @@ table.custom-form-table td {
     <input
       type="tel"
       name="phone"
-      placeholder="M12345678"
+      placeholder="2136495777"
       required
       pattern="\d{10}"
       maxlength="10"
@@ -201,7 +203,7 @@ table.custom-form-table td {
       oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);"
     />
     <div class="form-note">
-      *만약 제출된 이름/국적/여권 번호가 실제 여권과 다른 경우 심카드가 제공되지 않습니다
+      *미국 휴대폰 전화번호 10자리(3자리 지역코드를 포함)을 숫자만 입력해 주세요
     </div>
   </td>
 </tr>
@@ -216,7 +218,9 @@ table.custom-form-table td {
     </tr>
     <tr>
         <th><span class="required">•</span> 휴대폰 모델</th>
-        <td><input type="text" name="mobilemodelname" placeholder="iPhone 16, Samsung S25" required /></td>
+        <td><input type="text" name="mobilemodelname" placeholder="iPhone 16, Samsung S25" required />
+            <div class="form-note">*미국에서 출시된 아이폰 14 시리즈 이상은 eSIM만 이용 가능합니다
+    </div></td>
     </tr>
 </table>
 
@@ -235,13 +239,13 @@ table.custom-form-table td {
         <td>
             <select name="arrival_terminal" required>
                 <option value="" disabled selected>도착 터미널 선택</option>
-                <option value="terminal1">인천공항 제1터미널 (1층)</option>
-                <option value="terminal2">인천공항 제2터미널 (1층)</option>
-                <option value="gimpoairport">김포 국제공항</option>
-                <option value="gimhaeairport">김해 국제공항</option>
-                <option value="jejuairport">제주 국제공항</option>
-                <option value="busanharbor">부산 항구</option>
-                <option value="daeguairport">대구 공항</option>
+                <option value="terminal1">Incheon International Airport Terminal 1 (1st floor)</option>
+                <option value="terminal2">Incheon International Airport Terminal 2 (1st floor))</option>
+                <option value="gimpoairport">Gimpo International Airport</option>
+                <option value="gimhaeairport">Gimhae International Airport</option>
+                <option value="jejuairport">Jeju International Airport항</option>
+                <option value="busanharbor">Busan Harbor</option>
+                <option value="daeguairport">Daegu Airport</option>
 
             </select>
                     <div class="form-note">* 심카드 픽업 / 여권 확인 / 충전 / 도착 공항을 선택해 주세요</div>
@@ -256,6 +260,10 @@ document.addEventListener("DOMContentLoaded", function () {
   const buyNowBtn = document.getElementById("buy-now-button");
   const customAgreeAll = document.getElementById("customAgreeAll");
   const customSubAgrees = document.querySelectorAll(".custom-sub-agree");
+
+  document.querySelectorAll("input[name='Firstname'], input[name='Lastname']").forEach(function (input) {
+    input.addEventListener("input", function () {
+      this.value = this.value.toUpperCase();
 
   if (!buyNowBtn) return;
 

@@ -199,7 +199,7 @@ Once again, we sincerely thank you for ordering a Y Connect Korea SKT eSIM.
 <div class="inline-block-fix">
 <div class="section-title">
     <br>
-Y CONNECT KOREA, INC. <br>
+Y CONNECT KOREA<br>
 Customer Support<br>
 </div>
 <p><a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a></p>

@@ -182,7 +182,7 @@
 <br>
 <div class="inline-block-fix">
 <div class="section-title">
-Y CONNECT KOREA, INC. <br>
+Y CONNECT KOREA<br>
 고객지원센터<br>
 </div>
 <p><a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a></p>

@@ -60,22 +60,6 @@
 ※ If there are many customers waiting, you may be asked to charge the amount for outgoing voice/texts through online.</p>
 
 
-
-<?php
-$raw_date = $mail_data['arrival_date'] ?? '';
-$formatted_date = '';
-
-try {
-    $date = DateTime::createFromFormat('d/m/Y', $raw_date);
-    if ($date !== false) {
-        $formatted_date = $date->format('Y-m-d');
-    }
-} catch (Exception $e) {
-    $formatted_date = $raw_date; // 실패하면 원본 그대로 출력
-}
-?>
-
-
 <div class="section-title">■ SKT USIM (Airport Pickup) Reservation Information</div>
 <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
   <tr>
