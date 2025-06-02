@@ -5,7 +5,6 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>[Y CONNECT KOREA] SKT uSIM 픽업 안내</title>
   <style>
     body { font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6; }
     h2 { color: #000080; }
@@ -59,7 +58,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 <p><strong>(1) 본 바우처의 바코드(주문번호)와 고객님 여권을 제시해 주시고, <br>(2) 음성/문자 발신이 필요하신 분께서는 음성/문자 발신용 금액을 충전하시면 됩니다. <br>여권정보 본인 확인과 충전이 완료되면 SKT SIM 카드를 수령하실 수 있습니다.</strong></p><br>
 <p class="red-text">※ 발신 요금 충전은 한국에서 사용 가능한 본인 신용카드로 결제하셔야 하며, <br> 공항 SKT 로밍센터에서 대기자가 많을 경우, 온라인으로 충전할 것을 요청할 수 있습니다.</p><br>
 </div>
-
+<hr>
 
 <div class="section-title">■ SKT USIM (Airport Pickup) 예약 정보</div>
 <table style="border-collapse: collapse; width: 100%; table-layout: fixed;">
@@ -77,11 +76,11 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
   </tr>
   <tr>
     <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Arrival Date in Korea </td>
-    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($formatted_date) ?></td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($mail_data['arrival_date']) ?></td>
   </tr>
   <tr>
     <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;">Pickup / Passport Verification / Charge</td>
-    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;">Incheon International Airport (Terminal 1)</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;"><?= htmlspecialchars($mail_data['pickup_location']) ?></td>
   </tr>
   <tr>
     <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Usage Days</td>
@@ -90,7 +89,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 </table>
 <div class="inline-block-fix">
 <br>
-<div class="section-title">■■ 온라인 음성/문자 발신용 금액 재충전</div><br>
+<div class="section-title">■ 온라인 음성/문자 발신용 금액 재충전</div><br>
 <p>※ 음성/문자 발신은 금액 충전 시 이용이 가능하며 음성/문자 수신은 무료로 이용이 가능합니다.</p><br>
 </div>
 <div style="text-align: right; font-size: 12px; margin-bottom: 5px;">*부가세 포함</div>
@@ -118,8 +117,8 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 <div class="section-title">■ 공항 SKT 로밍센터 안내</div><br>
 <p>SKT 로밍센터를 방문하기전에 장소와 근무시간을 확인하세요.</p>
 </div>
-<div class="box-link" style="text-align: center; font-weight: bold;">
-  <a href="https://yconnectkorea.com/esim-install" target="_blank" style="color: black; text-decoration: none;">
+<div class="box-link" style="text-align: left; font-weight: bold;">
+  <a href="https://yconnectkorea.com/esim-install" target="_blank" style="color: black; text-decoration: underline;">
     SKT 로밍센터 상세 보기
   </a>
 </div>

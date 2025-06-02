@@ -71,11 +71,11 @@
   </tr>
   <tr>
     <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Arrival Date in Korea</td>
-    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($formatted_date) ?></td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;"><?= htmlspecialchars($mail_data['arrival_date']) ?></td>
   </tr>
   <tr>
     <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;">Pickup / Passport Verification / Charge</td>
-    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;">Incheon International Airport (Terminal 1)</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle; color: red;"><?= htmlspecialchars($mail_data['pickup_location']) ?></td>
   </tr>
   <tr>
     <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Usage Days</td>
@@ -132,8 +132,8 @@
 <p>SKT 로밍센터를 방문하기전에 장소와 근무시간을 확인하세요.</p>
 </div>
 
-<div class="box-link" style="text-align: center; font-weight: bold;">
-  <a href="https://yconnectkorea.com/esim-install" target="_blank" style="color: black; text-decoration: none;">
+<div class="box-link" style="text-align: left; font-weight: bold;">
+  <a href="https://yconnectkorea.com/esim-install" target="_blank" style="color: black; text-decoration: underline;">
     SKT 로밍센터 상세 보기
   </a>
 </div>
