@@ -38,7 +38,6 @@ function yck_insert_custom_form() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
 }
 
 .form-check {
@@ -51,8 +50,6 @@ function yck_insert_custom_form() {
 
 .form-check-left {
   display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .form-check-right {
@@ -124,6 +121,10 @@ table.custom-form-table td {
       border: 1px solid #ccc;
       border-radius: 2px;
     }
+    
+    label[for="ageCheck"] {
+    display: inline-block;
+    }
 
     input[type="text"],
     input[type="email"],
@@ -141,8 +142,8 @@ table.custom-form-table td {
             display: block !important;
         }
         .personal-info .form-title {
-  margin-top: 0;
-}
+    margin-top: 0;
+    }
 </style>
 
 
@@ -239,13 +240,13 @@ table.custom-form-table td {
         <td>
             <select name="arrival_terminal" required>
                 <option value="" disabled selected>도착 터미널 선택</option>
-                <option value="terminal1">Incheon International Airport Terminal 1 (1st floor)</option>
-                <option value="terminal2">Incheon International Airport Terminal 2 (1st floor))</option>
-                <option value="gimpoairport">Gimpo International Airport</option>
-                <option value="gimhaeairport">Gimhae International Airport</option>
-                <option value="jejuairport">Jeju International Airport항</option>
-                <option value="busanharbor">Busan Harbor</option>
-                <option value="daeguairport">Daegu Airport</option>
+                <option value="Incheon International Airport Terminal 1 (1st floor)">Incheon International Airport Terminal 1 (1st floor)</option>
+                <option value="Incheon International Airport Terminal 2 (1st floor)">Incheon International Airport Terminal 2 (1st floor)</option>
+                <option value="Gimpo International Airport">Gimpo International Airport</option>
+                <option value="Gimhae International Airport">Gimhae International Airport</option>
+                <option value="Jeju International Airport">Jeju International Airport</option>
+                <option value="Busan Harbor">Busan Harbor</option>
+                <option value="Daegu Airport">Daegu Airport</option>
 
             </select>
                     <div class="form-note">* 심카드 픽업 / 여권 확인 / 충전 / 도착 공항을 선택해 주세요</div>
@@ -254,7 +255,15 @@ table.custom-form-table td {
     </tr>
 </table>
 </div>
+<style>
+    table.custom-form-table th span.required {
+    display: inline !important;
+    }
 
+    span.required{
+    display: inline !important;
+    }
+</style>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   const buyNowBtn = document.getElementById("buy-now-button");
