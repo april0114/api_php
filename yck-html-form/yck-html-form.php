@@ -156,13 +156,13 @@ table.custom-form-table td {
                 <label for="ageCheck">만 14세 이상만 예약하실 수 있습니다. 만 14세 이상이십니까?</label>
             </div>
             <div class="form-check-right">
-                <span class="required">•</span> 필수 입력 항목입니다.
+                <span class="required">*</span> 필수 입력 항목입니다.
             </div>
         </div>
 
         <table class="custom-form-table">
             <tr>
-                <th><span class="required">•</span> 이름</th>
+                <th>이름<span class="required">*</span></th>
                 <td>
 <div class="name-inputs">
     <input type="text" name="Lastname" placeholder="Last name" required style="text-transform: uppercase;" />
@@ -172,26 +172,26 @@ table.custom-form-table td {
                 </td>
             </tr>
             <tr>
-                <th><span class="required">•</span> 국적</th>
+                <th>국적<span class="required">*</span></th>
                 <td><input type="text" name="nationality" placeholder="Republic of Korea"  required />
                     <div class="form-note">*여권에 기재된 국적을 선택해 주세요</div>
                 </td>
             </tr>
                         <tr>
-                <th><span class="required">•</span> 여권 번호</th>
+                <th>여권 번호<span class="required">*</span></th>
                 <td><input type="text" name="passport_number" placeholder="M12345678" required />
                 <div class="form-note">*만약 제출된 이름/국적/여권 번호가 실제 여권과 다른 경우 심카드가 제공되지 않습니다</div>
 </td>
             </tr>
             <tr>
-                <th><span class="required">•</span> 이메일</th>
+                <th>이메일<span class="required">*</span></th>
                 <td>
                     <input type="email" name="email" placeholder="example@example.com" required />
                     <div class="form-note">*QR 코드 또는 바우처(주문번호)을 받을 수 있는 이메일 주소를 정확하게 입력해 주세요</div>
                 </td>
             </tr>
 <tr>
-  <th><span class="required">•</span> 휴대폰 번호</th>
+  <th>휴대폰 번호<span class="required">*</span></th>
   <td>
     <input
       type="tel"
@@ -214,11 +214,11 @@ table.custom-form-table td {
         <div class="form-title">모바일 정보</div>
 <table class="custom-form-table">
     <tr>
-        <th><span class="required">•</span> 서비스 사업자</th>
+        <th>서비스 사업자<span class="required">*</span></th>
         <td><input type="text" name="mobilecarrier" placeholder="Verizon, AT&T, Tmobile" required /></td>
     </tr>
     <tr>
-        <th><span class="required">•</span> 휴대폰 모델</th>
+        <th>휴대폰 모델<span class="required">*</span></th>
         <td><input type="text" name="mobilemodelname" placeholder="iPhone 16, Samsung S25" required />
             <div class="form-note">*미국에서 출시된 아이폰 14 시리즈 이상은 eSIM만 이용 가능합니다
     </div></td>
@@ -228,14 +228,14 @@ table.custom-form-table td {
 <div class="form-title">입국 정보</div>
 <table class="custom-form-table">
     <tr>
-        <th><span class="required">•</span> 한국 도착일
+        <th>한국 도착일<span class="required">*</span>
 </th>
         <td><input type="date" name="arrival_date" required min="<?= date('Y-m-d') ?>"/>
                 <div class="form-note">*한국 날짜 기준으로 입력해 주세요</div>
         </td>
     </tr>
     <tr>
-        <th><span class="required">•</span> 도착 공항
+        <th>도착 공항<span class="required">*</span>
         </th>
         <td>
             <select name="arrival_terminal" required>
