@@ -13,15 +13,18 @@ add_action('woocommerce_thankyou', 'yck_handle_order_by_slug', 10, 1);
 require_once plugin_dir_path(__FILE__) . 'includes/esim_handler.php';
 require_once plugin_dir_path(__FILE__) . 'includes/usim_handler.php';
 
-function yck_handle_order_by_slug($order_id) {
+function yck_handle_order_by_slug($order_id)
+{
     $order = wc_get_order($order_id);
-    if (!$order) return;
+    if (!$order)
+        return;
 
     foreach ($order->get_items() as $item) {
         $product = $item->get_product();
-        $slug = $product->get_slug(); // 예: en_esim-data-only, usim-airport-pickup
-
-        error_log('[YCK] 상품 슬러그: ' . $slug);
+        $slug = $product->get_slug(); 
+        
+        //짧은 로그를 위해 주석처리 (오류가 발생했을시 주석해제후 사용)
+        //error_log('[YCK] 상품 슬러그: ' . $slug);
 
         // 언어 구분: 'en_'이면 영어
         $lang = str_starts_with($slug, 'en_') ? 'en' : 'ko';
