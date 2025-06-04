@@ -1,28 +1,31 @@
 <?php
-function yck_send_usim_to_api($data) {
+function yck_send_usim_to_api($data)
+{
     //실제 서버 (배포용)
 
-    
+
     //테스트용
     $url = 'https://yconnectkorea.com/wp-content/plugins/yck-order-handler/includes/api_usim_test.php';
 
 
     $headers = [
         //"Content-Type: application/json; charset=UTF-8",
-     ];
+    ];
 
     $buy_user_name = trim(($data['first_name'] ?? '') . ' ' . ($data['last_name'] ?? ''));
-    $product_days = is_array($data['usage_days']) ? (string)($data['usage_days'][0] ?? '1') : (string)$data['usage_days'];
+    $product_days = is_array($data['usage_days']) ? (string) ($data['usage_days'][0] ?? '1') : (string) $data['usage_days'];
     $today = date('Ymd');
 
+
+    // ✅ API에 전송할 본문 데이터 구성
     $body = json_encode([
-        "order_id"         => $data['order_id'],
-        "buy_user_name"    => $buy_user_name,
-        "product_type"     => "US",         // ✅ 고정값
-        "product_days"     => $product_days,
-        "quantity"         => 1,            // ✅ 고정값
-        "apply_start_date" => $today, //우선 오늘로 해둠(나중에 받아오는 값에 따라 수정 예정)
-        "payment_date"     => $today
+        "order_id" => $data['order_id'],
+        "buy_user_name" => $buy_user_name,
+        "product_type" => "US",       
+        "product_days" => $product_days,
+        "quantity" => 1,            
+        "apply_start_date" => $today, 
+        "payment_date" => $today
     ]);
 
     error_log('[YCK-USIM] API 전송 바디: ' . $body);

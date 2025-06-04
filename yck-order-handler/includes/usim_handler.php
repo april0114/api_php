@@ -2,7 +2,9 @@
 require_once plugin_dir_path(__FILE__) . '/utils.php';
 require_once plugin_dir_path(__FILE__) . '/api_usim.php';
 
-function yck_handle_usim_order($order) {
+function yck_handle_usim_order($order)
+{
+    // [1] 주문 내 첫 번째 상품의 slug를 기준으로 언어 결정 (en_으로 시작하면 영어, 아니면 한국어)
     // 상품의 slug 기반 언어 결정
     $slug = '';
     foreach ($order->get_items() as $item) {
@@ -11,54 +13,60 @@ function yck_handle_usim_order($order) {
     }
     $lang = str_starts_with($slug, 'en_') ? 'en' : 'ko';
 
+
+    // [2] 주문 데이터 수집 (utils.php에 정의된 함수로)
     $data = yck_collect_order_data($order, 'usim');
 
-    error_log('[YCK] 최종 buy_user_name: [' . $data['first_name'] . ' ' . $data['last_name'] . ']');
+    // [3] 최종 데이터 로깅 (디버깅용)
     error_log('[YCK] JSON 최종 전송값: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
 
+    // [4] USIM API 호출 (api_usim.php의 함수 사용)
     $api_response = yck_send_usim_to_api($data, 'usim'); // usim API 호출
 
-    // 템플릿 및 제목
-    $template_file    = "templates/email_template_usim_{$lang}.php";
-    $template_path    = plugin_dir_path(__DIR__) . $template_file;
-    $subject_customer = $lang === 'en' ? '[Y CONNECT KOREA] USIM Voucher' : '[Y CONNECT KOREA] USIM 바우처';
+    // [5] 이메일 템플릿 경로 및 제목 설정 (언어에 따라 다르게 설정)
+    $template_file = "templates/email_template_usim_{$lang}.php";
+    $template_path = plugin_dir_path(__DIR__) . $template_file;
+    $subject_customer = $lang === 'en' ? '[Y CONNECT KOREA] This is the voucher email for the SKT USIM (Airport Pickup) you ordered' : '[Y CONNECT KOREA] This is the voucher email for the SKT USIM (Airport Pickup) you ordered';
 
-    // [1] API 정상 응답
+    //API가 정상적으로 처리된 경우 (result === 1)
+    // 실제 배포 시에는 === 1 조건으로 정확히 비교
     if ($api_response['result'] === 1) {
         $email_body = yck_render_template($template_path, ['mail_data' => $data]);
         $sent = wp_mail($data['email'], $subject_customer, $email_body, [
             'Content-Type: text/html; charset=UTF-8',
             'From: Y CONNECT KOREA <noreply@yconnectkorea.com>',
         ]);
+
+        // 전송 결과 로깅
         error_log($sent ? '[YCK] ✅ USIM 이메일 전송 성공' : '[YCK] ❌ USIM 이메일 전송 실패');
     }
 
-    // [2] API 실패이지만 결제 성공 (-9)
+    //API 실패이지만 결제는 완료된 경우 (result === -9)
     elseif ($api_response['result'] === -9) {
         $email_body_user = yck_render_template($template_path, ['mail_data' => $data]);
         wp_mail($data['email'], $subject_customer, $email_body_user, [
             'Content-Type: text/html; charset=UTF-8',
             'From: Y CONNECT KOREA <noreply@yconnectkorea.com>',
         ]);
-
-        $admin_template = plugin_dir_path(__DIR__) . '/templates/error/error_alert.php';
+        // 관리자에게 수동 등록 요청 메일 발송
+        $admin_template = plugin_dir_path(__DIR__) . 'templates/error/error_alert.php';
         $email_body_admin = yck_render_template($admin_template, ['mail_data' => $data]);
-        wp_mail('noreply@yconnectkorea.com', '[YCK 알림] USIM 주문 API 실패(-9) - 수동 등록 필요', $email_body_admin, [
+        wp_mail('kyungrimha@gmail.com', '[YCK 알림] USIM 주문 API 실패(-9) - 수동 등록 필요', $email_body_admin, [
             'Content-Type: text/html; charset=UTF-8',
             'From: Y CONNECT 시스템 <noreply@yconnectkorea.com>',
         ]);
     }
 
-    // [3] 명시적 에러코드 대응
+    // 명시적 에러코드 대응
     elseif (in_array($api_response['result'], [-1, -2, -3, -5])) {
-        $admin_template = plugin_dir_path(__DIR__) . '/templates/error/error_alert.php';
+        $admin_template = plugin_dir_path(__DIR__) . 'templates/error/error_alert.php';
         $email_body_admin = yck_render_template($admin_template, [
             'mail_data' => $data,
             'error_code' => $api_response['result'],
             'error_reason' => $api_response['reason'] ?? 'Unknown',
         ]);
 
-        wp_mail('noreply@yconnectkorea.com', "[YCK 경고] USIM 주문 API 실패 (코드: {$api_response['result']})", $email_body_admin, [
+        wp_mail('kyungrimha@gmail.com', "[YCK 경고] USIM 주문 API 실패 (코드: {$api_response['result']})", $email_body_admin, [
             'Content-Type: text/html; charset=UTF-8',
             'From: Y CONNECT 시스템 <noreply@yconnectkorea.com>',
         ]);
@@ -66,8 +74,22 @@ function yck_handle_usim_order($order) {
         error_log('[YCK] 관리자에게 에러코드 ' . $api_response['result'] . ' 메일 전송됨');
     }
 
-    // [4] 기타 실패
+    // 그 외 예상치 못한 실패 응답 처리
     else {
-        error_log('[YCK] USIM API 실패: ' . json_encode($api_response));
+        $admin_template = plugin_dir_path(__DIR__) . 'templates/error/error_alert.php';
+
+        $email_body_admin = yck_render_template($admin_template, [
+            'mail_data' => $data,
+            'error_code' => $api_response['result'] ?? 'Unknown',
+            'error_reason' => $api_response['reason'] ?? 'Unknown',
+            'raw_response' => json_encode($api_response, JSON_UNESCAPED_UNICODE),
+        ]);
+
+        wp_mail('kyungrimha@gmail.com', '[YCK 경고] USIM 주문 API 실패 (예상치 못한 응답)', $email_body_admin, [
+            'Content-Type: text/html; charset=UTF-8',
+            'From: Y CONNECT 시스템 <noreply@yconnectkorea.com>',
+        ]);
+
+        error_log('[YCK] 기타 USIM API 실패 메일 전송됨: ' . json_encode($api_response));
     }
 }

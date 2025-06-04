@@ -24,9 +24,10 @@ function yck_collect_order_data($order, $type = 'esim') {
         }
     }
 
-    error_log('[YCK] 주문 전체 메타: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
+    // 디버깅 로그로 전체 데이터 출력(로그의 부하를 줄이기 위해 주석 처리함 - 추후 문제 생겼을 시 주석 제거 후 확인)
+    //error_log('[YCK] 주문 전체 메타: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
 
-    // 기본 필드 추출
+    // 주요 사용자 입력 정보 추출
     $first_name      = $data['item_Firstname'] ?? '';
     $last_name       = $data['item_Lastname'] ?? '';
     $passport_number = $data['item_passport_number'] ?? '';
@@ -50,6 +51,7 @@ function yck_collect_order_data($order, $type = 'esim') {
         }
     }
 
+    //최종 가공된 배열 반환
     return [
         'order_id'        => $custom_order_id,
         'first_name'      => $first_name,
