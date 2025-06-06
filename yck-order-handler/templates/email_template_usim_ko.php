@@ -218,11 +218,16 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
   SKT 로밍센터를 방문하기 전에 장소와 근무시간을 확인하세요.
 </div>
 
-<div style="text-align: left; font-weight: bold; font-size: 14px; background-color: #e2efd9; border: 1px solid #999; padding: 10px; margin-bottom: 16px;">
-  <a href="https://yconnectkorea.com/esim-install" target="_blank" style="color: black; text-decoration: underline;">
-    SKT 로밍센터 상세 보기
-  </a>
-</div>
+<table style="border-collapse: collapse; width: 100%; margin: 16px 0;">
+  <tr>
+    <td style="background-color: #e2efd9; border: 1px solid #999; padding: 10px; text-align: left; font-weight: bold; font-size: 14px;">
+      <a href="https://yconnectkorea.com/esim-install" target="_blank" style="color: black; text-decoration: underline;">
+        SKT 로밍센터 상세 보기
+      </a>
+    </td>
+  </tr>
+</table>
+
 
 <!--■ 온라인 음성/문자 발신용 금액 충전 방법 -->
 <div class="section-title" style="font-weight: bold; font-size: 14px; margin-top: 16px; margin-bottom: 1px;">
