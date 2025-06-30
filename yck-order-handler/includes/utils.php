@@ -4,11 +4,11 @@ date_default_timezone_set('Asia/Seoul');
 function yck_collect_order_data($order, $type = 'esim') {
     $order_id = $order->get_id();
     $mmddyy = date('mdy');
-    $custom_order_id = 'YCK' . $mmddyy . $order_id;
+    $formatted_order_number = $order->get_meta('_order_number_formatted', true);
     $formatted_payment_date = date('YmdHis');
 
     $data = [
-        'order_id'     => $order_id,
+        'order_id'     => $formatted_order_number,
         'payment_date' => $formatted_payment_date,
     ];
 
@@ -25,7 +25,7 @@ function yck_collect_order_data($order, $type = 'esim') {
     }
 
     // 디버깅 로그로 전체 데이터 출력(로그의 부하를 줄이기 위해 주석 처리함 - 추후 문제 생겼을 시 주석 제거 후 확인)
-    //error_log('[YCK] 주문 전체 메타: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
+    //error_log($timestamp . '[YCK] 주문 전체 메타: ' . json_encode($data, JSON_UNESCAPED_UNICODE));
 
     // 주요 사용자 입력 정보 추출
     $first_name      = $data['item_Firstname'] ?? '';
@@ -53,7 +53,7 @@ function yck_collect_order_data($order, $type = 'esim') {
 
     //최종 가공된 배열 반환
     return [
-        'order_id'        => $custom_order_id,
+        'order_id'        => $formatted_order_number,
         'first_name'      => $first_name,
         'last_name'       => $last_name,
         'passport_number' => $passport_number,
@@ -67,8 +67,9 @@ function yck_collect_order_data($order, $type = 'esim') {
     ];
 }
 function yck_render_template($template_file, $variables = []) {
+    $timestamp = date('[Y-m-d H:i:s]');
     if (!file_exists($template_file)) {
-        error_log('[YCK] 템플릿 파일 없음: ' . $template_file);
+        error_log($timestamp . '[YCK] 템플릿 파일 없음: ' . $template_file);
         return '';
     }
 

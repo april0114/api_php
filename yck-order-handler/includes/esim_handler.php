@@ -6,9 +6,10 @@ use Picqer\Barcode\BarcodeGeneratorPNG;
 
 function yck_handle_esim_order($order, $lang = 'ko')
 {
+    $timestamp = date('[Y-m-d H:i:s]');
     $data = yck_collect_order_data($order, 'esim');
 
-    error_log('[YCK] JSON 최종 전송값: ' . json_encode($data));
+    error_log("$timestamp [YCK] JSON 최종 전송값: " . json_encode($data, JSON_UNESCAPED_UNICODE) . PHP_EOL, 3, __DIR__ . '/error/error.log');
 
     $api_response = yck_send_to_api($data);
 
@@ -17,7 +18,7 @@ function yck_handle_esim_order($order, $lang = 'ko')
     $template_path = plugin_dir_path(__DIR__) . $template_file;
     $subject_customer = $lang === 'en' ? '[Y CONNECT KOREA] This is the installation and activation guide email for the SKT eSIM you ordered' : '[Y CONNECT KOREA] This is the installation and activation guide email for the SKT eSIM you ordered';
 
-    error_log('[YCK] 템플릿 경로: ' . $template_path);
+    error_log("$timestamp [YCK] 템플릿 경로: " . $template_path . PHP_EOL, 3, __DIR__ . '/error/error.log');
 
     // [1] API 정상 응답
     if ($api_response['result'] === 0) {
@@ -27,7 +28,7 @@ function yck_handle_esim_order($order, $lang = 'ko')
             'From: Y CONNECT KOREA <noreply@yconnectkorea.com>',
         ]);
 
-    error_log($sent ? '[YCK] ✅ 이메일 전송 성공' : '[YCK] ❌ 이메일 전송 실패');
+    error_log($timestamp . ' ' . ($sent ? '[YCK] ✅ 이메일 전송 성공' : '[YCK] ❌ 이메일 전송 실패') . PHP_EOL, 3, __DIR__ . '/error/error.log');
     }
     // [2] API 실패이지만 결제 성공 (-9)
     elseif ($api_response['result'] === -9) {
@@ -44,7 +45,7 @@ function yck_handle_esim_order($order, $lang = 'ko')
 
         $email_body_admin = yck_render_template($admin_template, ['mail_data' => $data]);
 
-        $sent_admin = wp_mail('kyungrimha@gmail.com', '[YCK 알림] eSIM 주문 API 실패(-9)', $email_body_admin, [
+        $sent_admin = wp_mail('yckforward@gmail.com', '[YCK 알림] eSIM 주문 API 실패(-9)', $email_body_admin, [
             'Content-Type: text/html; charset=UTF-8',
             'From: Y CONNECT 시스템 <noreply@yconnectkorea.com>',
         ]);
@@ -55,7 +56,7 @@ function yck_handle_esim_order($order, $lang = 'ko')
         $admin_template = plugin_dir_path(__DIR__) . 'templates/error/error_alert.php';
 
         //관리자 템플릿 경로 주석 처리(문제가 있을 경우 다시 주석 해제)
-        //error_log('[YCK] 관리자 템플릿 경로: ' . $admin_template);
+        //error_log($timestamp . '[YCK] 관리자 템플릿 경로: ' . $admin_template);
 
 
         $email_body_admin = yck_render_template($admin_template, [
@@ -65,16 +66,30 @@ function yck_handle_esim_order($order, $lang = 'ko')
         ]);
 
 
-        $sent_admin = wp_mail('kyungrimha@gmail.com', "[YCK 경고] eSIM 주문 API 실패 (코드: {$api_response['result']})", $email_body_admin, [
+        $sent_admin = wp_mail('yckforward@gmail.com', "[YCK 경고] eSIM 주문 API 실패 (코드: {$api_response['result']})", $email_body_admin, [
             'Content-Type: text/html; charset=UTF-8',
             'From: Y CONNECT 시스템 <noreply@yconnectkorea.com>',
         ]);
 
-        error_log($sent_admin ? '[YCK] ✅ 관리자 메일 전송 성공 (코드: ' . $api_response['result'] . ')' : '[YCK] ❌ 관리자 메일 전송 실패 (코드: ' . $api_response['result'] . ')');
+    error_log($timestamp . ' ' . ($$sent_admin ? '[YCK] ✅ 이메일 전송 성공' : '[YCK] ❌ 이메일 전송 실패') . PHP_EOL, 3, __DIR__ . '/error/error.log');
     }
 
-    // [4] 그 외 실패
-    else {
-        error_log('[YCK] eSIM API 실패: ' . json_encode($api_response));
+        // [4] 그 외 실패
+        else {
+        $admin_template = plugin_dir_path(__DIR__) . 'templates/error/error_alert.php';
+
+        $email_body_admin = yck_render_template($admin_template, [
+            'mail_data' => $data,
+            'error_code' => $api_response['result'] ?? 'Unknown',
+            'error_reason' => $api_response['reason'] ?? 'Unknown',
+            'raw_response' => json_encode($api_response, JSON_UNESCAPED_UNICODE),
+        ]);
+
+        wp_mail('yckforward@gmail.com', '[YCK 경고] eSIM 주문 API 실패 (예상치 못한 응답)', $email_body_admin, [
+            'Content-Type: text/html; charset=UTF-8',
+            'From: Y CONNECT 시스템 <noreply@yconnectkorea.com>',
+        ]);
+
+    error_log($timestamp . ' [YCK] 기타 eSIM API 실패 메일 전송됨: ' . json_encode($api_response, JSON_UNESCAPED_UNICODE) . PHP_EOL, 3, __DIR__ . '/error/error.log');
     }
 }

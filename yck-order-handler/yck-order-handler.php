@@ -3,11 +3,13 @@
 Plugin Name: YCK Order Handler
 Description: WooCommerce 주문 완료 후 eSIM / USIM 분리 처리
 Version: 1.0
-Author: April,Ha
+Author: April Ha, Kevin Han(Advice Digital Marketing Inc.)
 */
 
 // 주문 완료 트리거
-add_action('woocommerce_thankyou', 'yck_handle_order_by_slug', 10, 1);
+//add_action('woocommerce_thankyou', 'yck_handle_order_by_slug', 10, 1);
+add_action('woocommerce_order_status_completed', 'yck_handle_order_by_slug', 10, 1);
+
 
 // 파일 로딩
 require_once plugin_dir_path(__FILE__) . 'includes/esim_handler.php';
@@ -15,6 +17,7 @@ require_once plugin_dir_path(__FILE__) . 'includes/usim_handler.php';
 
 function yck_handle_order_by_slug($order_id)
 {
+    $timestamp = date('[Y-m-d H:i:s]');
     $order = wc_get_order($order_id);
     if (!$order)
         return;
@@ -45,5 +48,5 @@ function yck_handle_order_by_slug($order_id)
         }
     }
 
-    error_log('[YCK] 슬러그 분류 실패: order_id = ' . $order_id);
+    error_log($timestamp . '[YCK] 슬러그 분류 실패: order_id = ' . $order_id);
 }

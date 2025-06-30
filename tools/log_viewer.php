@@ -1,9 +1,9 @@
 <?php
 // 설정 부분 (로그 파일 경로 수정)
-$logFile = '/home/yckoreadomain/public_html/error_log';
+$logFile = '/home/yckoreadomain/public_html/wp-content/plugins/yck-order-handler/includes/error/error.log';
 
 // 최근 몇 줄까지 출력할지
-$maxLines = 200;
+$maxLines = 10000;
 
 // 파일 존재 여부 확인
 if (!file_exists($logFile)) {
