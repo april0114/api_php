@@ -9,7 +9,36 @@
 function yck_insert_custom_form()
 {
   ob_start();
-  ?>
+  
+// 다국어 분기 - 영어면 true
+    $is_english = strpos($_SERVER['REQUEST_URI'], '/en_') !== false;
+
+  // 다국어 label 구성
+  $labels = [
+    'form_title' => $is_english ? 'Personal Information' : '개인정보 입력',
+    'age_check' => $is_english ? 'Order available for 14 years or older. Are you over 14?' : '만 14세 이상만 주문하실 수 있습니다. 만 14세 이상이십니까?',
+    'required_note' => $is_english ? '* Required field' : '* 필수 입력 항목입니다.',
+    'lastname' => $is_english ? 'Last name' : '성',
+    'firstname' => $is_english ? 'First name' : '이름',
+    'nationality' => $is_english ? 'Country' : '국적',
+    'passport' => $is_english ? 'Passport Number' : '여권 번호',
+    'email' => $is_english ? 'Email' : '이메일',
+    'phone' => $is_english ? 'Phone Number' : '휴대폰 번호',
+    'carrier' => $is_english ? 'Mobile Carrier' : '서비스 사업자',
+    'model' => $is_english ? 'Phone Model' : '휴대폰 모델',
+    'arrival_title' => $is_english ? 'Arrival Information' : '입국 정보',
+    'arrival_date' => $is_english ? 'Arrival Date <br>(Korean Time)' : '한국 도착일',
+    'arrival_terminal' => $is_english ? 'Arrival Terminal' : '도착 공항',
+    'note_name' => $is_english ? '* Enter your name in uppercase as in passport.' : '*여권에 기재된 영문과 동일하게 대문자로 입력해 주세요',
+    'note_nationality' => $is_english ? '* Select the country as shown in your passport.' : '*여권에 기재된 국적을 선택해 주세요',
+    'note_passport' => $is_english ? '* If info does not match your passport, SIM cannot be issued.' : '*정보가 여권과 다르면 심카드가 제공되지 않습니다',
+    'note_email' => $is_english ? '* Enter a valid email to receive QR/voucher.' : '*QR 또는 바우처를 받을 이메일을 입력해 주세요',
+    'note_phone' => $is_english ? '* Enter your 10-digit U.S. phone number.' : '*미국 휴대폰 번호 10자리 입력',
+    'note_model' => $is_english ? '* iPhone 14+ U.S. version only supports eSIM.' : '*미국판 아이폰 14 이상은 eSIM만 사용 가능',
+    'note_arrival_date' => $is_english ? '* Based on Korean local date/time.' : '*한국 기준 날짜로 입력',
+    'note_arrival_terminal' => $is_english ? '* Select terminal for pickup/check.' : '*픽업 및 여권 확인용 도착 공항 선택'
+  ];
+?>
 
   <!-- 폼을 위한 CSS -->
   <style>
@@ -164,127 +193,108 @@ function yck_insert_custom_form()
 
 
   <!-- 개인정보 입력 섹션 -->
-  <div class="form-wrapper">
-    <div class="form-section personal-info">
-      <div class="form-title">개인정보 입력</div>
-    </div>
-
-
-    <!-- 만 14세 체크박스 -->
-    <div class="form-check">
-      <div class="form-check-left">
-        <input type="checkbox" id="ageCheck" required>
-        <label for="ageCheck">만 14세 이상만 예약하실 수 있습니다. 만 14세 이상이십니까?</label>
-      </div>
-      <div class="form-check-right">
-        <span class="required">*</span> 필수 입력 항목입니다.
-      </div>
-    </div>
-
-
-    <!-- 사용자 정보 입력 필드 -->
-    <table class="custom-form-table">
-      <tr>
-        <th>이름<span class="required">*</span></th>
-        <td>
-          <div class="name-inputs">
-            <input type="text" name="Lastname" placeholder="Last name" required style="text-transform: uppercase;" />
-            <input type="text" name="Firstname" placeholder="First name" required style="text-transform: uppercase;" />
-          </div>
-          <div class="form-note">*여권에 기재된 영문과 동일하게 대문자로 입력해 주세요</div>
-        </td>
-      </tr>
-
-
-      <!-- 국적 -->
-      <tr>
-        <th>국적<span class="required">*</span></th>
-        <td>
-          <select id="nationality" name="nationality" required>
-            <option value="" disabled selected>국가 선택 (Country)</option>
-          </select>
-          <div class="form-note">*여권에 기재된 국적을 선택해 주세요</div>
-        </td>
-      </tr>
-
-      <!-- 여권 번호, 이메일, 휴대폰 -->
-      <tr>
-        <th>여권 번호<span class="required">*</span></th>
-        <td><input type="text" name="passport_number" placeholder="M12345678" required />
-          <div class="form-note">*만약 제출된 이름/국적/여권 번호가 실제 여권과 다른 경우 심카드가 제공되지 않습니다</div>
-        </td>
-      </tr>
-      <tr>
-        <th>이메일<span class="required">*</span></th>
-        <td>
-          <input type="email" name="email" placeholder="example@example.com" required />
-          <div class="form-note">*QR 코드 또는 바우처(주문번호)을 받을 수 있는 이메일 주소를 정확하게 입력해 주세요</div>
-        </td>
-      </tr>
-      <tr>
-        <th>휴대폰 번호<span class="required">*</span></th>
-        <td>
-          <input type="tel" name="phone" placeholder="2136495777" required pattern="\d{10}" maxlength="10"
-            inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" />
-          <div class="form-note">
-            *미국 휴대폰 전화번호 10자리(3자리 지역코드를 포함)을 숫자만 입력해 주세요
-          </div>
-        </td>
-      </tr>
-    </table>
-
-
-    <!-- 모바일 정보 -->
-    <div class="form-title">모바일 정보</div>
-    <table class="custom-form-table">
-      <tr>
-        <th>서비스 사업자<span class="required">*</span></th>
-        <td><input type="text" name="mobilecarrier" placeholder="Verizon, AT&T, Tmobile" required /></td>
-      </tr>
-      <tr>
-        <th>휴대폰 모델<span class="required">*</span></th>
-        <td><input type="text" name="mobilemodelname" placeholder="iPhone 16, Samsung S25" required />
-          <div class="form-note">*미국에서 출시된 아이폰 14 시리즈 이상은 eSIM만 이용 가능합니다
-          </div>
-        </td>
-      </tr>
-    </table>
-
-
-
-    <!-- 입국 정보 -->
-    <div class="form-title">입국 정보</div>
-    <table class="custom-form-table">
-      <tr>
-        <th>한국 도착일<span class="required">*</span>
-        </th>
-        <td><input type="date" name="arrival_date" required min="<?= date('Y-m-d') ?>" />
-          <div class="form-note">*한국 날짜 기준으로 입력해 주세요</div>
-        </td>
-      </tr>
-      <tr>
-        <th>도착 공항<span class="required">*</span>
-        </th>
-        <td>
-          <select name="arrival_terminal" required>
-            <option value="" disabled selected>도착 터미널 선택</option>
-            <option value="Incheon International Airport Terminal 1 (1st floor)">Incheon International Airport Terminal 1
-              (1st floor)</option>
-            <option value="Incheon International Airport Terminal 2 (1st floor)">Incheon International Airport Terminal 2
-              (1st floor)</option>
-            <option value="Gimpo International Airport">Gimpo International Airport</option>
-            <option value="Gimhae International Airport">Gimhae International Airport</option>
-            <option value="Jeju International Airport">Jeju International Airport</option>
-            <option value="Busan Harbor">Busan Harbor</option>
-            <option value="Daegu Airport">Daegu Airport</option>
-
-          </select>
-          <div class="form-note">* 심카드 픽업 / 여권 확인 / 충전 / 도착 공항을 선택해 주세요</div>
-
-        </td>
-      </tr>
-    </table>
+  
+ <html lang="en">
+<div class="form-wrapper">
+  <div class="form-section personal-info">
+    <div class="form-title"><?php echo $labels['form_title']; ?></div>
   </div>
+
+  <div class="form-check">
+    <div class="form-check-left">
+      <input type="checkbox" id="ageCheck" required>
+      <label for="ageCheck"><?php echo $labels['age_check']; ?></label>
+    </div>
+    <div class="form-check-right">
+      <span class="required">*</span> <?php echo $labels['required_note']; ?>
+    </div>
+  </div>
+
+  <table class="custom-form-table">
+    <tr>
+      <th><?php echo $labels['firstname']; ?><span class="required">*</span></th>
+      <td>
+        <div class="name-inputs">
+          <input type="text" name="Lastname" placeholder="<?php echo strtoupper($labels['lastname']); ?>" required style="text-transform: uppercase;" />
+          <input type="text" name="Firstname" placeholder="<?php echo strtoupper($labels['firstname']); ?>" required style="text-transform: uppercase;" />
+        </div>
+        <div class="form-note"><?php echo $labels['note_name']; ?></div>
+      </td>
+    </tr>
+    <tr>
+      <th><?php echo $labels['nationality']; ?><span class="required">*</span></th>
+      <td>
+        <select id="nationality" name="nationality" required>
+          <option value="" disabled selected><?php echo $is_english ? 'Select Country' : '국가 선택'; ?></option>
+        </select>
+        <div class="form-note"><?php echo $labels['note_nationality']; ?></div>
+      </td>
+    </tr>
+    <tr>
+      <th><?php echo $labels['passport']; ?><span class="required">*</span></th>
+      <td>
+        <input type="text" name="passport_number" placeholder="M12345678" required />
+        <div class="form-note"><?php echo $labels['note_passport']; ?></div>
+      </td>
+    </tr>
+    <tr>
+      <th><?php echo $labels['email']; ?><span class="required">*</span></th>
+      <td>
+        <input type="email" name="email" placeholder="example@example.com" required />
+        <div class="form-note"><?php echo $labels['note_email']; ?></div>
+      </td>
+    </tr>
+    <tr>
+      <th><?php echo $labels['phone']; ?><span class="required">*</span></th>
+      <td>
+        <input type="tel" name="phone" placeholder="2136495777" required pattern="\d{10}" maxlength="10" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" />
+        <div class="form-note"><?php echo $labels['note_phone']; ?></div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="form-title"><?php echo $is_english ? 'Mobile Information' : '모바일 정보'; ?></div>
+  <table class="custom-form-table">
+    <tr>
+      <th><?php echo $labels['carrier']; ?><span class="required">*</span></th>
+      <td><input type="text" name="mobilecarrier" placeholder="Verizon, AT&T, Tmobile" required /></td>
+    </tr>
+    <tr>
+      <th><?php echo $labels['model']; ?><span class="required">*</span></th>
+      <td>
+        <input type="text" name="mobilemodelname" placeholder="iPhone 16, Samsung S25" required />
+        <div class="form-note"><?php echo $labels['note_model']; ?></div>
+      </td>
+    </tr>
+  </table>
+
+  <div class="form-title"><?php echo $labels['arrival_title']; ?></div>
+  <table class="custom-form-table">
+    <tr>
+      <th><?php echo $labels['arrival_date']; ?><span class="required">*</span></th>
+      <td>
+        <input type="date" name="arrival_date" required min="<?php echo date('Y-m-d'); ?>" />
+        <div class="form-note"><?php echo $labels['note_arrival_date']; ?></div>
+      </td>
+    </tr>
+    <tr>
+      <th><?php echo $labels['arrival_terminal']; ?><span class="required">*</span></th>
+      <td>
+        <select name="arrival_terminal" required>
+          <option value="" disabled selected><?php echo $is_english ? 'Select Arrival Terminal' : '도착 터미널 선택'; ?></option>
+          <option value="Incheon International Airport Terminal 1 (1st floor)">Incheon International Airport Terminal 1 (1st floor)</option>
+          <option value="Incheon International Airport Terminal 2 (1st floor)">Incheon International Airport Terminal 2 (1st floor)</option>
+          <option value="Gimpo International Airport">Gimpo International Airport</option>
+          <option value="Gimhae International Airport">Gimhae International Airport</option>
+          <option value="Jeju International Airport">Jeju International Airport</option>
+          <option value="Busan Harbor">Busan Harbor</option>
+          <option value="Daegu Airport">Daegu Airport</option>
+        </select>
+        <div class="form-note"><?php echo $labels['note_arrival_terminal']; ?></div>
+      </td>
+    </tr>
+  </table>
+</div>
 
   <!--필수 표시 강제 출력-->
   <style>
@@ -489,16 +499,16 @@ add_filter('woocommerce_get_item_data', 'yck_show_custom_data_in_cart', 10, 2);
 function yck_show_custom_data_in_cart($item_data, $cart_item)
 {
   $labels = [
-    'Firstname' => '이름',
-    'Lastname' => '성',
-    'nationality' => '국적',
-    'email' => '이메일',
-    'phone' => '연락처',
-    'passport_number' => '여권 번호',
-    'mobilecarrier' => '통신사',
-    'mobilemodelname' => '기종',
-    'arrival_date' => '도착일',
-    'arrival_terminal' => '도착 공항'
+    'Firstname' => 'Firstname',
+    'Lastname' => 'Lastname',
+    'nationality' => 'nationality',
+    'email' => 'email',
+    'phone' => 'phone',
+    'passport_number' => 'passport_number',
+    'mobilecarrier' => 'mobilecarrier',
+    'mobilemodelname' => 'mobilemodelname',
+    'arrival_date' => 'arrival_date',
+    'arrival_terminal' => 'arrival_terminal'
   ];
 
   foreach ($labels as $key => $label) {
