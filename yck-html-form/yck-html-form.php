@@ -15,28 +15,28 @@ function yck_insert_custom_form()
 
   // 다국어 label 구성
   $labels = [
-    'form_title' => $is_english ? 'Personal Information' : '개인정보 입력',
-    'age_check' => $is_english ? 'Order available for 14 years or older. Are you over 14?' : '만 14세 이상만 주문하실 수 있습니다. 만 14세 이상이십니까?',
-    'required_note' => $is_english ? '* Required field' : '* 필수 입력 항목입니다.',
+    'form_title' => $is_english ? 'Register Personal Information' : '개인정보 입력',
+    'age_check' => $is_english ? 'You can place an order when you are over 14 years old. Are you over 14 years old?' : '만 14세 이상만 주문하실 수 있습니다. 만 14세 이상이십니까?',
+    'required_note' => $is_english ? 'This is a required field.' : '필수 입력 항목입니다.',
     'lastname' => $is_english ? 'Last name' : '성',
-    'firstname' => $is_english ? 'First name' : '이름',
-    'nationality' => $is_english ? 'Country' : '국적',
+    'firstname' => $is_english ? 'Name' : '이름',
+    'nationality' => $is_english ? 'Nationality' : '국적',
     'passport' => $is_english ? 'Passport Number' : '여권 번호',
-    'email' => $is_english ? 'Email' : '이메일',
-    'phone' => $is_english ? 'Phone Number' : '휴대폰 번호',
+    'email' => $is_english ? 'Email Address' : '이메일',
+    'phone' => $is_english ? 'Mobile Number' : '휴대폰 번호',
     'carrier' => $is_english ? 'Mobile Carrier' : '서비스 사업자',
-    'model' => $is_english ? 'Phone Model' : '휴대폰 모델',
+    'model' => $is_english ? 'Mobile Model Name' : '휴대폰 모델',
     'arrival_title' => $is_english ? 'Arrival Information' : '입국 정보',
-    'arrival_date' => $is_english ? 'Arrival Date <br>(Korean Time)' : '한국 도착일',
-    'arrival_terminal' => $is_english ? 'Arrival Terminal' : '도착 공항',
-    'note_name' => $is_english ? '* Enter your name in uppercase as in passport.' : '*여권에 기재된 영문과 동일하게 대문자로 입력해 주세요',
-    'note_nationality' => $is_english ? '* Select the country as shown in your passport.' : '*여권에 기재된 국적을 선택해 주세요',
-    'note_passport' => $is_english ? '* If info does not match your passport, SIM cannot be issued.' : '*정보가 여권과 다르면 심카드가 제공되지 않습니다',
-    'note_email' => $is_english ? '* Enter a valid email to receive QR/voucher.' : '*QR 또는 바우처를 받을 이메일을 입력해 주세요',
-    'note_phone' => $is_english ? '* Enter your 10-digit U.S. phone number.' : '*미국 휴대폰 번호 10자리 입력',
-    'note_model' => $is_english ? '* iPhone 14+ U.S. version only supports eSIM.' : '*미국판 아이폰 14 이상은 eSIM만 사용 가능',
-    'note_arrival_date' => $is_english ? '* Based on Korean local date/time.' : '*한국 기준 날짜로 입력',
-    'note_arrival_terminal' => $is_english ? '* Select terminal for pickup/check.' : '*픽업 및 여권 확인용 도착 공항 선택'
+    'arrival_date' => $is_english ? 'Arrival Date in Korea' : '한국 도착일',
+    'arrival_terminal' => $is_english ? 'Arrival Airport' : '도착 공항',
+    'note_name' => $is_english ? '*Please enter your name exactly as shown on your passport in uppercase English letters.' : '*여권에 기재된 영문과 동일하게 대문자로 입력해 주세요',
+    'note_nationality' => $is_english ? '*Please select your nationality as shown on your passport.' : '*여권에 기재된 국적을 선택해 주세요',
+    'note_passport' => $is_english ? '*eSIM/USIM may not be provided If the submitted information does not match your passport.' : '*만약 제출된 이름/국적/여권 번호가 실제 여권과 다른 경우 심카드가 제공되지 않습니다',
+    'note_email' => $is_english ? '*Please enter your email address you can receive the QR code or voucher(order number) email' : '*QR 코드 또는 바우처(주문번호)을 받을 수 있는 이메일 주소를 정확하게 입력해 주세요',
+    'note_phone' => $is_english ? '*Please enter your US mobile Number only 10 digit (including 3-digit area)' : '*미국 휴대폰 전화번호 10자리(3자리 지역코드를 포함)을 숫자만 입력해 주세요',
+    'note_model' => $is_english ? '*The iPhone 14 series and latest models released in the United States support eSIM only.' : '*미국에서 출시된 아이폰 14 시리즈 이상은 eSIM만 이용 가능합니다',
+    'note_arrival_date' => $is_english ? '*Please enter the arrival date based on the Korea time zone.' : '*한국 날짜 기준으로 입력해 주세요',
+    'note_arrival_terminal' => $is_english ? '*Please select your arrival airport for Pickup / Passport Verification / Charge / others.' : '* 심카드 픽업 / 여권 확인 / 충전 / 도착 공항을 선택해 주세요'
   ];
 ?>
 
@@ -501,14 +501,14 @@ function yck_show_custom_data_in_cart($item_data, $cart_item)
   $labels = [
     'Firstname' => 'Firstname',
     'Lastname' => 'Lastname',
-    'nationality' => 'nationality',
-    'email' => 'email',
-    'phone' => 'phone',
-    'passport_number' => 'passport_number',
-    'mobilecarrier' => 'mobilecarrier',
-    'mobilemodelname' => 'mobilemodelname',
-    'arrival_date' => 'arrival_date',
-    'arrival_terminal' => 'arrival_terminal'
+    'nationality' => 'Nationality',
+    'email' => 'Email',
+    'phone' => 'Mobile',
+    'passport_number' => 'Passport_number',
+    'mobilecarrier' => 'Mobile_carrier',
+    'mobilemodelname' => 'Mobile_model_name',
+    'arrival_date' => 'Arrival_date',
+    'arrival_terminal' => 'Arrival_terminal'
   ];
 
   foreach ($labels as $key => $label) {

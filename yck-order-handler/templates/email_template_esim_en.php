@@ -80,7 +80,7 @@
 
 <!-- 로고 이미지-->
 <body>
-  <a href="https://yconnectkorea.com" target="_blank">
+  <a href="http://yconnectkorea.com/en/" target="_blank">
     <img src="https://yconnectkorea.com/wp-content/uploads/2025/04/YCK_logo_01.png" alt="Y CONNECT KOREA Logo"
       style="max-width: 200px; display: block; margin: 20px 0;">
   </a>
@@ -97,7 +97,7 @@
   Once your order is complete, you should receive an email containing a QR code separately from this installation guide email.
 </div>
 
-<div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px; color: red; font-weight: bold;">
+<!-- <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px; color: red; font-weight: bold;">
   If you do not receive the QR code email (in English) from our Korean partner within 24 hours after placing your order:
 </div>
 
@@ -108,7 +108,7 @@
 <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px; font-weight: bold;">
   2. If you still do not receive the QR code after checking the above 1,<br>
   please send an email to <a href="mailto:contact@yconnectkorea.com">contact@yconnectkorea.com</a> with subject "QR Code Not Received", and include your name, phone number, and order number. We will process your request immediately.
-</div>
+</div> -->
 
 
 <!-- ■ SKT eSIM 예약번호(주문번호) -->
@@ -190,12 +190,11 @@
 
         <!-- ■ SKT eSIM 설치, 활성화 방법 -->
 <div class="section-title" style="font-weight: bold; font-size: 14px; margin-top: 16px; margin-bottom: 1px;">
-  ■ eSIM Installation and Activation
+  ■ How to install eSIM
 </div>
 
   <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
-    ※ This eSIM QR codes can be scanned within one year after the order and it cannot be scanned after one year.
-  </div>
+  ※ This eSIM QR codes can be scanned within one year after the order and it cannot be scanned after one year.  </div>
   <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
     ※ If you delete the eSIM profile, you will need to order a new eSIM to use it.
   </div>
@@ -220,7 +219,10 @@
     ※ If you only need data, the following steps are not required.
   </div>
   <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
-    Before arriving in Korea, please install the eSIM on your phone. Then, visit the SKT roaming center at the airport.
+    Before arriving in Korea, please install the eSIM on your phone. 
+    </div>
+    <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
+    Then, visit the SKT roaming center at the airport.
   </div>
   <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
     1. Present the QR code email (order number / rental contract number / eSIM 010 phone number)
@@ -276,7 +278,7 @@
 <table style="border-collapse: collapse; width: 100%; margin: 16px 0;">
   <tr>
     <td style="background-color: #e2efd9; border: 1px solid #999; padding: 10px; text-align: left; font-weight: bold;">
-      <a href="https://yconnectkorea.com/contact/#03" target="_blank" style="color: black; text-decoration: underline;">
+      <a href="https://yconnectkorea.com/en_contact/#03" target="_blank" style="color: black; text-decoration: underline;">
         View Details: SKT roaming center
       </a>
     </td>
@@ -345,9 +347,9 @@
 
 <!-- 맺음말 -->
 <div class="section-title" style="font-weight: bold; font-size: 14px; line-height: 1.6;">
-  If there are any errors in your order details, or if you have any questions,<br>
-  please send an email to contact@yconnectkorea.com with your order details and inquiry, and we will respond promptly.<br>
-  Once again, we sincerely thank you for ordering a Y Connect Korea SKT eSIM.
+If there are any errors in your order details, or if you have any questions, 
+please send an email with your order number and inquiry, and we will respond promptly.
+Once again, we sincerely thank you for ordering the Y CONNECT KOREA SKT eSIM.
 </div>
 
   <div class="section-title" style="font-weight: bold; font-size: 14px; line-height: 1.6; margin-bottom: 1px;">

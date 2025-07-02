@@ -124,7 +124,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
     </div>
 
     <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
-      여권 정보 본인 확인과 충전이 완료되면 SKT SIM 카드를 수령하실 수 있습니다.
+      여권정보 본인 확인과 충전이 완료되면 SKT SIM 카드를 수령하실 수 있습니다.
     </div>
 
     <div style="font-size: 14px; line-height: 1.6; color: red; font-weight: bold; margin-bottom: 1px;">
@@ -179,7 +179,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 
   <!--■ 온라인 음성/문자 발신용 금액 재충전-->
 <div class="section-title" style="font-weight: bold; font-size: 14px; margin-top: 16px; margin-bottom: 1px;">
-  ■ 온라인 음성/문자 발신용 금액 재충전
+  ■ 음성/문자 발신용 금액 충전
 </div>
 
 <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
@@ -187,7 +187,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 </div>
 
 <div style="text-align: right; font-size: 12px; margin-bottom: 1px;">
-  *부가세 포함
+  *부가세 포함입니다
 </div>
 
 <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse: collapse; text-align: center; font-size: 14px; line-height: 1.6; margin-bottom: 24px;">
@@ -219,14 +219,14 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 </div>
 
 <div style="text-align: left; font-weight: bold; font-size: 14px; background-color: #e2efd9; border: 1px solid #999; padding: 10px; margin-bottom: 16px;">
-  <a href="https://yconnectkorea.com/esim-install" target="_blank" style="color: black; text-decoration: underline;">
-    SKT 로밍센터 상세 보기
+  <a href="https://yconnectkorea.com/contact/" target="_blank" style="color: black; text-decoration: underline;">
+    SKT 로밍센터 위치
   </a>
 </div>
 
 <!--■ 온라인 음성/문자 발신용 금액 충전 방법 -->
 <div class="section-title" style="font-weight: bold; font-size: 14px; margin-top: 16px; margin-bottom: 1px;">
-  ■ 온라인 음성/문자 발신용 금액 충전 방법
+  ■ 온라인 음성/문자 발신용 금액 재충전
 </div>
 
 <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
@@ -238,7 +238,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 
 <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
   ① 로그인 정보 입력:<br>
-  렌털 계약 번호 / eSIM 010 전화번호 (이 정보는 SKT 로밍센터에서 심카드 픽업 시 제공됩니다)
+  렌털 계약 번호 / USIM 010 전화번호 (이 정보는 SKT 로밍센터에서 심카드 픽업 시 제공됩니다)
 </div>
 
 <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">

@@ -330,10 +330,8 @@
 
 <!-- 맺음말 -->
 <div style="font-family: Arial, sans-serif; font-size: 14px; color: #333; line-height: 1.6; font-weight: bold; margin-bottom: 20px;">
-  주문 내역에 착오가 있거나, 그 외 궁금한 사항이 있으시면,<br>
-  고객님 주문 정보와 함께 문의 사항을 적으셔서 
-  <a href="mailto:contact@yconnectkorea.com" style="color: #0645AD; text-decoration: underline;">contact@yconnectkorea.com</a> 으로<br>
-  이메일 보내 주시면 바로 답변 드리겠습니다.<br>
+  주문 내역에 착오가 있거나, 추가 궁금한 것이 있으시면,<br>
+  고객님 주문 번호와 문의 사항을 이메일로 보내 주시면 바로 답변 드리겠습니다.<br>
   다시 한번 Y Connect Korea SKT eSIM을 주문해 주심에 진심으로 감사드립니다.
 </div>
 

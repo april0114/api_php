@@ -85,7 +85,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 
 <body>
  <p>
-  <a href="https://yconnectkorea.com" target="_blank">
+  <a href="http://yconnectkorea.com/en/" target="_blank">
     <img src="https://yconnectkorea.com/wp-content/uploads/2025/04/YCK_logo_01.png" alt="Y CONNECT KOREA Logo"
       style="max-width: 200px; display: block; margin: 20px 0;">
   </a>
@@ -118,7 +118,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 
 <!-- 안내 문구 부분 -->
   <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
-    <strong>Upon arriving in Korea, please visit the SKT roaming center at the airport.</strong>
+    <strong>After arriving in Korea, please visit the SKT Roaming Center at the airport.</strong>
   </div>
 
   <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
@@ -126,16 +126,16 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
   </div>
 
   <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
-    <strong>(2)</strong> If you need to make outgoing voice/texts, charge the amount for outgoing voice/texts.
+    <strong>(2)</strong>If you need to make outgoing voice/texts, charge the amount for outgoing voice/texts.
   </div>
 
   <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
-    Once your passport verification and charging (if needed) are complete, you will receive your SKT SIM card.
+Once your passport information is verified and charging is completed, you can receive your SKT SIM card.
   </div>
 
   <div style="font-size: 14px; line-height: 1.6; color: red; font-weight: bold; margin-bottom: 1px;">
     ※ You must pay with your credit card that can be used in Korea.<br>
-    ※ If there are many customers waiting, you may be asked to charge the amount for outgoing voice/texts through online.
+    ※ If there are many customers waiting at the SKT roaming center, you may be requested to charge for outgoing voice/texts online.
   </div>
 
 
@@ -165,7 +165,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
     </td>
   </tr>
   <tr>
-    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Arrival Date in Korea / Arrival Time</td>
+    <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">Arrival Date in Korea</td>
     <td style="border: 1px solid #000; padding: 12px; text-align: center; vertical-align: middle;">
       <?= htmlspecialchars($mail_data['arrival_date']) ?>
     </td>
@@ -228,7 +228,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 <table style="width: 100%; border-collapse: collapse; margin-bottom: 16px;">
   <tr>
     <td style="background-color: #e2efd9; border: 1px solid #999; padding: 10px; text-align: left; font-weight: bold;">
-      <a href="https://yconnectkorea.com/contact/#03" target="_blank" style="color: black; text-decoration: underline;">
+      <a href="https://yconnectkorea.com/en_contact/#03" target="_blank" style="color: black; text-decoration: underline;">
         View Details: SKT roaming center
       </a>
     </td>
@@ -249,7 +249,7 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 
 <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
   ① Enter login information:<br>
-  Rental contract number / eSIM 010 phone number (This information will be provided at the SKT roaming center when you pick up your SIM card)
+ Rental contract number / USIM 010 phone number (This information will be provided when you pick up your SIM card)
 </div>
 
 <div style="font-size: 14px; line-height: 1.6; margin-bottom: 1px;">
@@ -267,9 +267,9 @@ require_once WP_PLUGIN_DIR . '/yck-order-handler/includes/barcode128.php';
 <br>
 <hr>
 <div class="section-title" style="font-weight: bold; font-size: 14px; line-height: 1.6; margin-top: 16px; margin-bottom: 16px;">
-  If there are any errors in your order details, or if there are any changes to the SIM card pickup location/date,<br>
-  please send an email to contact@yconnectkorea.com with your order details and inquiry, and we will respond promptly.<br>
-  Once again, we sincerely thank you for ordering a Y Connect Korea SKT USIM (Airport Pickup).
+  If there are any errors in your order details, or if you have any questions, 
+Please, send an email with your order number and inquiry, and we will respond promptly.
+Once again, we sincerely thank you for ordering the Y CONNECT KOREA SKT USIM (Airport Pickup).
 </div>
 
 <div class="section-title" style="font-weight: bold; font-size: 14px; line-height: 1.6; margin-top: 16px; margin-bottom: 1px;">
